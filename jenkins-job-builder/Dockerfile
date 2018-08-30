@@ -1,4 +1,4 @@
-FROM jenkins-slave:jenkins-slave
+FROM jenkins-slave:dev
  
 USER root
 

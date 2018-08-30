@@ -19,7 +19,7 @@ credentials_store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.cre
 creds = new BasicSSHUserPrivateKey(CredentialsScope.GLOBAL,
 		"jenkins-slave-private-key",
         "jenkins-slave",
-        new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource("/run/secrets/jenkins-slave-private-key"),
+        new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource("/run/secrets/jenkins-node-private-key"),
         "",
         "Description")
 
