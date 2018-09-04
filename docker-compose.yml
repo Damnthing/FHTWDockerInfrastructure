@@ -14,7 +14,7 @@ services:
     networks:
       - jenkins-network
 
-  job-builder:
+  jenkins-job-builder:
     image: jenkins-job-builder:dev
     networks:
       - jenkins-network

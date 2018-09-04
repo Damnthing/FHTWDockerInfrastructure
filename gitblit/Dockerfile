@@ -21,3 +21,6 @@ COPY ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
 RUN chmod 600 /etc/ssh/ssh_host_ecdsa_key.pub
 
 COPY jenkins-slave-rsa.pub /opt/gitblit-data/ssh/jenkins.keys
+
+COPY ssh-rsa-hostkey.pem /opt/gitblit-data/ssh-rsa-hostkey.pem
+COPY ssh-dsa-hostkey.pem /opt/gitblit-data/ssh-dsa-hostkey.pem
