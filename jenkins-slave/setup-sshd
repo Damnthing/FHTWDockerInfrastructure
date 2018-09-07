@@ -52,7 +52,7 @@ fi
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
 
-[ -e /init/init.sh ] && /init/init.sh || :
+[ -e /init/init-jenkins-job-builder.sh ] && /init/init-jenkins-job-builder.sh || :
 
 #ssh-keygen -A
 exec /usr/sbin/sshd -D -e "${@}"

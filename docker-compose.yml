@@ -13,11 +13,17 @@ services:
       - jenkins-node-private-key
     networks:
       - jenkins-network
+    depends_on:
+      - "gitblit"
+      - "jenkins-slave"
+      - "jenkins-job-builder"
 
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     networks:
       - jenkins-network
+    depends_on:
+      - "gitblit"
 
   jenkins-slave:
     image: jenkins-slave:dev
@@ -27,6 +33,8 @@ services:
       - jenkins-network
     environment:
       - JENKINS_SLAVE_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDoQrMrv2h1fw1GJ4Hwa/Rat7Us1fJB8zzdH28rdihuN9qwfGGpdytqMtjmVNkFBtiDiC8NmQ2+qpk8y05Uy6dxrpgoHDHNwHpVuwux9F3XZ2VUsBunovIhHJwDu8sdHJAWu0mPVsSrCXHuKH6TvjNzpZhzYKiNFi7Eo6PfdVOgBgggErCSw6CxU37oa/JjGj93BnzbIoX4zbTFM8qsiISkRsR5/xXPsM4hPqCKs+iViUvGZ8ymnWVznegJrDYScwEnuHTE8AM3d20pfoPoTyyegQi8JRIC19SFfm18CRjWG+HG/S2QPgrs+3j/BhIEkk8YVUTwsRsM0aWQh66ewDj
+    depends_on:
+      - "gitblit"
   
   gitblit:
     image: gitblit:dev

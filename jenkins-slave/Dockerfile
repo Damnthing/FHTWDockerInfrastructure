@@ -72,6 +72,12 @@ RUN chmod 600 /etc/ssh/ssh_host_ecdsa_key
 COPY ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
 RUN chmod 600 /etc/ssh/ssh_host_ecdsa_key.pub
 
+COPY setup-sshd /init/setup-sshd
+RUN chmod +x /init/setup-sshd
+
+COPY init.sh /init/init.sh
+RUN chmod +x /init/init.sh
+
 EXPOSE 22
 
-ENTRYPOINT ["setup-sshd"]
+ENTRYPOINT ["/init/init.sh"]
