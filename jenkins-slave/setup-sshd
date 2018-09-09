@@ -30,7 +30,7 @@ set -ex
 #  docker run -e "JENKINS_SLAVE_SSH_PUBKEY=<public key>" jenkinsci/ssh-slave
 
 write_key() {
-	mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+	#mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 	echo "$1" > "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 	chown -Rf jenkins-slave:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 	chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"

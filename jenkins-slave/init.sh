@@ -1,5 +1,12 @@
 #!/bin/bash
 
 mkdir /home/jenkins-slave/.ssh
-ssh-keyscan -p 29418 gitblit >> /home/jenkins-slave/.ssh/known_hosts
+
+gitblitKey=`ssh-keyscan -p 29418 gitblit`
+while [ -z "$gitblitKey" ]
+do
+	gitblitKey=`ssh-keyscan -p 29418 gitblit`
+done
+echo $gitblitKey >> /home/jenkins-slave/.ssh/known_hosts
+
 sh /init/setup-sshd
