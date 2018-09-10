@@ -63,5 +63,5 @@ echo $gitblitKey >> /home/jenkins-slave/.ssh/known_hosts
 
 [ -e /init/init-jenkins-job-builder.sh ] && /init/init-jenkins-job-builder.sh || :
 
-#ssh-keygen -A
+ssh-keygen -A
 exec /usr/sbin/sshd -D -e "${@}"

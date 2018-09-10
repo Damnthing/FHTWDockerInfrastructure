@@ -49,31 +49,11 @@ RUN sed -i /etc/ssh/sshd_config \
 VOLUME "${JENKINS_AGENT_HOME}" "/tmp" "/run" "/var/run"
 WORKDIR "${JENKINS_AGENT_HOME}"
 
-COPY setup-sshd /usr/local/bin/setup-sshd
-RUN chmod 754 /usr/local/bin/setup-sshd
+#COPY setup-sshd /usr/local/bin/setup-sshd
+#RUN chmod 754 /usr/local/bin/setup-sshd
 
-COPY ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
-RUN chmod 600 /etc/ssh/ssh_host_rsa_key
-COPY ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
-RUN chmod 600 /etc/ssh/ssh_host_rsa_key.pub
-
-COPY ssh_host_dsa_key /etc/ssh/ssh_host_dsa_key
-RUN chmod 600 /etc/ssh/ssh_host_dsa_key
-COPY ssh_host_dsa_key.pub /etc/ssh/ssh_host_dsa_key.pub
-RUN chmod 600 /etc/ssh/ssh_host_dsa_key.pub
-
-COPY ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
-RUN chmod 600 /etc/ssh/ssh_host_ed25519_key
-COPY ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
-RUN chmod 600 /etc/ssh/ssh_host_ed25519_key.pub
-
-COPY ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key
-RUN chmod 600 /etc/ssh/ssh_host_ecdsa_key
-COPY ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
-RUN chmod 600 /etc/ssh/ssh_host_ecdsa_key.pub
-
-COPY setup-sshd /init/setup-sshd
-RUN chmod +x /init/setup-sshd
+#COPY setup-sshd /init/setup-sshd
+#RUN chmod +x /init/setup-sshd
 
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
