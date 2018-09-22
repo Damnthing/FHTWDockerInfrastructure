@@ -1,6 +1,10 @@
 #!/bin/bash
 
 (
+	cd nginx-proxy
+	docker image build -it nginx-proxy:dev .
+)
+(
 	cd jenkins-master-origin
 	docker image build -t jenkins-master-origin:dev .
 )
