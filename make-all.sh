@@ -2,7 +2,7 @@
 
 (
 	cd nginx-proxy
-	docker image build -it nginx-proxy:dev .
+	docker image build -t nginx-proxy:dev .
 )
 (
 	cd jenkins-master-origin

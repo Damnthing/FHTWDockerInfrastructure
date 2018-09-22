@@ -2,13 +2,6 @@ version: '3.1'
  
 services:
 
-  nginx-proxy:
-    image: nginx-proxy:dev
-    ports:
-      - 82:80
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
   jenkins-master:
     image: jenkins-master:dev
     ports:
