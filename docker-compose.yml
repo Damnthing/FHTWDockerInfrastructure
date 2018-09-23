@@ -42,13 +42,13 @@ services:
   gitblit:
     image: gitblit:dev
     ports:
-      - 8081:8080
+      - 8181:8080
       - 8443:8443
       - 9418:9418
       - 29418:29418
     environment:
       - NGINX_PROXY_SUBDIRECTORY=gitblit
-      - VIRTUAL_PORT=8081
+      - VIRTUAL_PORT=8080
     networks:
       - jenkins-network
  
