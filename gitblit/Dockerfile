@@ -1,4 +1,4 @@
-FROM jacekkow/gitblit:latest
+FROM jmoger/gitblit:latest
 
 COPY ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
 RUN chmod 600 /etc/ssh/ssh_host_rsa_key
@@ -24,3 +24,5 @@ COPY jenkins-slave-rsa.pub /opt/gitblit-data/ssh/jenkins.keys
 
 COPY ssh-rsa-hostkey.pem /opt/gitblit-data/ssh-rsa-hostkey.pem
 COPY ssh-dsa-hostkey.pem /opt/gitblit-data/ssh-dsa-hostkey.pem
+
+RUN echo "server.contextPath = /gitblit" >> /opt/gitblit-data/gitblit.properties
