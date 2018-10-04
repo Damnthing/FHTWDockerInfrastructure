@@ -1,3 +1,7 @@
 #!/bin/bash
 
-jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update /jenkins-job-builder/tests/yamlparser/fixtures/templates002.yaml
+git clone "https://git-inf.technikum-wien.at/ueb-inf/$FACH_FULL"
+
+cd "$FACH_FULL/jenkins-jobs"
+
+jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update *
