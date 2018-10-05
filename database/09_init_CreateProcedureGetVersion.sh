@@ -5,8 +5,10 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 
 	CREATE FUNCTION get_version()
 	RETURNS INTEGER
-	AS $$
+	LANGUAGE SQL
+	AS \$BODY\$
+
 		SELECT 1;
-	$$ LANGUAGE SQL
+	\$BODY\$
 	 
 EOSQL

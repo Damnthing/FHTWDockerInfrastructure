@@ -24,3 +24,7 @@
 	cd gitblit
 	docker image build -t gitblit:dev .
 )
+(
+	cd database
+	docker image build -t database:dev .
+)

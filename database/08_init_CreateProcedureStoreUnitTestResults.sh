@@ -25,7 +25,8 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 		Custom5 character varying(50) = null
 	)
 	RETURNS void
-	AS $$
+	LANGUAGE SQL
+	AS \$BODY\$
 		INSERT INTO public."UnitTestResults" (
 				"Fach",
 				"User",
@@ -68,6 +69,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 				Custom4,
 				Custom5
 				)
-	$$ LANGUAGE SQL
+	\$BODY\$
 	
 EOSQL
