@@ -28,3 +28,7 @@
 	cd database
 	docker image build -t database:dev .
 )
+(
+	cd Assignment
+	docker image build -t application:dev .
+)

@@ -9,6 +9,7 @@ services:
       - 50000:50000
     environment:
       - JENKINS_OPTS=--prefix=/jenkins
+      - NGINX_PROXY_COURSE=gpr1
       - NGINX_PROXY_SUBDIRECTORY=jenkins
       - VIRTUAL_PORT=8080
     secrets:
@@ -48,6 +49,7 @@ services:
       - 9418:9418
       - 29418:29418
     environment:
+      - NGINX_PROXY_COURSE=gpr1
       - NGINX_PROXY_SUBDIRECTORY=git
       - VIRTUAL_PORT=8080
     networks:
@@ -62,6 +64,11 @@ services:
     image: adminer
     ports:
       - 8585:8080
+
+  application:
+    image: application:dev
+    ports:
+      - 9090:80
  
 secrets:
   jenkins-user:
