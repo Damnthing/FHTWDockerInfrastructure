@@ -34,9 +34,9 @@
 			{{ $map_to_root := or (first (groupByKeys $containers "Env.NGINX_PROXY_SUBDIRECTORY_MAP_TO_ROOT")) "1" }}
 
 			{{ if eq $map_to_root "1" }}
-				proxy_pass {{ $proto }}://{{ $course }}-{{ $subdir }}/{{ $subdir }};
+				proxy_pass {{ $proto }}://{{ $course }}-{{ $subdir }}/{{ $course }}/{{ $subdir }};
 			{{ else }}
-				proxy_pass {{ $proto }}://{{ $course }}-{{ $subdir }}/{{ $subdir }};
+				proxy_pass {{ $proto }}://{{ $course }}-{{ $subdir }}/{{ $course }}/{{ $subdir }};
 			{{ end }}
 			{{ if (exists (printf "/etc/nginx/htpasswd/%s" $subdir)) }}
 				auth_basic	"Restricted {{ $subdir }}";
