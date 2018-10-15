@@ -1,0 +1,2 @@
+HOST gitblit
+IdentityFile ~/.ssh/gitblit.key

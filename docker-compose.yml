@@ -20,8 +20,6 @@ services:
       - jenkins-network
     depends_on:
       - "gitblit"
-      - "jenkins-slave"
-      - "jenkins-job-builder"
 
   jenkins-job-builder:
     image: jenkins-job-builder:dev

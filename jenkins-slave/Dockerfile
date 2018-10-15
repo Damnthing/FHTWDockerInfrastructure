@@ -55,6 +55,10 @@ WORKDIR "${JENKINS_AGENT_HOME}"
 #COPY setup-sshd /init/setup-sshd
 #RUN chmod +x /init/setup-sshd
 
+RUN mkdir -p ${JENKINS_AGENT_HOME}/.ssh
+COPY gitblit.key ${JENKINS_AGENT_HOME}/.ssh/gitblit.key
+COPY config ${JENKINS_AGENT_HOME}/.ssh/config
+
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 
