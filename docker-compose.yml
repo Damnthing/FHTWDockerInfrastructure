@@ -8,9 +8,9 @@ services:
       - 8080:8080
       - 50000:50000
     environment:
-      - JENKINS_OPTS=--prefix=/jenkins
+      - JENKINS_OPTS=--prefix=/gpr1/jenkins
       - NGINX_PROXY_COURSE=gpr1
-      - NGINX_PROXY_SUBDIRECTORY=jenkins
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
       - VIRTUAL_PORT=8080
     secrets:
       - jenkins-user
@@ -50,7 +50,7 @@ services:
       - 29418:29418
     environment:
       - NGINX_PROXY_COURSE=gpr1
-      - NGINX_PROXY_SUBDIRECTORY=git
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/git
       - VIRTUAL_PORT=8080
     networks:
       - jenkins-network
@@ -58,6 +58,7 @@ services:
   database:
     image: database:dev
     environment: 
+      - POSTGRES_DB=Abgabe
       - POSTGRES_PASSWORD=admin
 
   adminer:
