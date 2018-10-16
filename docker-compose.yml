@@ -23,6 +23,8 @@ services:
 
   jenkins-job-builder:
     image: jenkins-job-builder:dev
+    environment:
+      - FACH_FULL=gpr1/jenkins
     networks:
       - jenkins-network
     depends_on:
