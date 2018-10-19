@@ -1,0 +1,36 @@
+﻿@model Assignment.Models.CourseViewModel
+@{
+    ViewBag.Title = "Assignments";
+}
+
+<h2>Assignments of course @Model.Name</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-2"></th>
+            <th>Assignment</th>
+            <th>Open from</th>
+            <th>Due date <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.Assignments)
+        {
+            <tr>
+                <td class="col-md-2">
+                    <a class="btn btn-primary" href="@Url.Action("EditAssignment", new { id = a.ID })">Edit</a>
+                    <a class="btn btn-default" href="@Url.Action("Download", new { id = a.ID })">Download</a>
+                </td>
+                <td>@a.Name</td>
+                <td>@a.OpenFrom</td>
+                <td>@a.DueDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("CreateAssignment", new { courseID = Model.ID })">Create new</a>
+    <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+</p>

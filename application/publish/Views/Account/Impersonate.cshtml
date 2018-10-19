@@ -1,0 +1,48 @@
+﻿@using Assignment.Models
+@model ImpersonateViewModel
+@{
+    ViewBag.Title = "Impersonate";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+    <div class="alert alert-warning">Impersonation: Passwords are not checked!</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Impersonate", "Account", new {  }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Use a ldap account to log in as another user.</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UID, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UID, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AsAdmin, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.AsAdmin)
+                        </div>
+                        @Html.ValidationMessageFor(m => m.AsAdmin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

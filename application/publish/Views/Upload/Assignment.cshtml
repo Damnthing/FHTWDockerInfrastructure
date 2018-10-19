@@ -1,0 +1,98 @@
+﻿@model Assignment.Models.UploadViewModel
+@using MvcFileUploader.HtmlHelper
+@using MvcFileUploader.Models
+
+
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload submission to @Model.Course.Name, @Model.Assignment.Name</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Upload</h3>
+        <div class="alert alert-info">Drag'n'Drop your files here or use the upload button.</div>
+
+        <p class="help-block">max. Filesize 4 MB</p>
+        
+        @(Html.MvcFileUpload()
+                .UploadAt(Url.Action("Files", new { id = Model.Assignment.ID }))
+                .UIStyle(UploadUI.Bootstrap)
+                .WithMaxFileSize(4 * 1024 * 1024)
+                .WithFileTypes("/(.*)/i")
+                .DisableImagePreview() // After upload there will be no preview
+                .RenderInline("_MvcFileUpload")
+        )
+
+        <p class="text-info">When everything is uploaded, go to the Assigment and check your submission.</p>
+        
+        <a class="btn btn-primary" href="@Url.Action("ViewAssignment", new { id = Model.Assignment.ID })">Assignment</a>
+        <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+    </div>
+    <div class="col-md-6">
+        <h3>Current content <a class="btn btn-default" href="@Url.Action("Assignment", new { id = Model.Assignment.ID })">Refresh</a></h3>
+        @using (Html.BeginForm("Delete", "Upload", new { id = Model.Assignment.ID }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Name <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var si in Model.CurrentContent)
+                        {
+                            <tr>
+                                <td>
+                                    @if (si.Added)
+                                    { <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> }
+                                    @if (si.Deleting)
+                                    { <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> }
+                                    @if (si.Modified)
+                                    { <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> }
+                                </td>
+                                <td>@si.FilePath</td>
+                                <td><button type="submit" class="btn btn-danger" name="file" value="@si.FilePath">Delete</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="btn btn-default" href="@Url.Action("DownloadSubmission", new { id = Model.Assignment.ID })">Download</a>
+                <button type="submit" class="btn btn-danger pull-right" name="file" value="">Delete all</button>
+            </div>
+        }
+        @if (Model.UnCommitedChanges)
+        {
+            <br />
+            <div class="row">
+                <div class="alert alert-danger">Warning! Uncommited changes found!</div>
+            </div>
+        }
+        <h3>History</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Timestamp <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var si in Model.Commits)
+                {
+                    <tr>
+                        <td>@si.Timestamp</td>
+                        <td>@si.Message</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

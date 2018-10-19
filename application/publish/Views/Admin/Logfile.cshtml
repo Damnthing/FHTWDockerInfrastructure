@@ -1,0 +1,20 @@
+﻿@model Assignment.Models.LogFileViewModel
+@{
+    ViewBag.Title = "Logfile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-info">
+    <a href="#last">Letzter Eintrag zuletzt</a>
+</p>
+<div class="panel panel-default">
+    <div class="panel-body text-monospace">
+        @foreach (var item in Model.Lines) {
+<span style="color: @item.Color">@item.Message</span><br /> }
+    </div>
+</div>
+<div id="last"></div>
+<p>
+    <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+</p>

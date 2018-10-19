@@ -1,0 +1,56 @@
+﻿@model Assignment.Models.GroupWorkIndexViewModel
+@{
+    ViewBag.Title = "Group work assignments";
+}
+
+<h2>Group work assignments</h2>
+
+<p>Manage you group work assignments</p>
+
+@if (Model.ShowGroupWorks)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-md-2"></th>
+                <th>Course</th>
+                <th>Group Owner</th>
+                <th>Group Name</th>
+                <th># Member</th>
+                <th>Created on <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grp in Model.GroupWorks)
+            {
+                <tr>
+                    <td class="col-md-2">
+                        @if (grp.ShowManageButton)
+                        {
+                            <a class="btn btn-primary" href="@Url.Action("Manage", new { id = grp.ID })">Manage</a>
+                            <a class="btn btn-default" href="@Url.Action("Edit", new { id = grp.ID })">Edit</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" href="@Url.Action("Manage", new { id = grp.ID })">View</a>
+                        }
+                    </td>
+                    <td>@grp.Course</td>
+                    <td>@grp.OwnerUID</td>
+                    <td>@grp.Name</td>
+                    <td>@grp.GroupWorkMembersCount</td>
+                    <td>@grp.CreatedOn</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">You didn't joined or created any group yet.</div>
+}
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create")">Create</a>
+    <a class="btn btn-default" href="@Url.Action("Join")">Join</a>
+</p>

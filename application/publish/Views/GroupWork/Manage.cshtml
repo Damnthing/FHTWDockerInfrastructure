@@ -1,0 +1,117 @@
+﻿@model Assignment.Models.ManageGroupWorkViewModel
+
+@{
+    ViewBag.Title = "Manage a group work";
+}
+
+<div class="row">
+    <h2>Manage a group work</h2>
+    <p class="alert alert-info">
+        Manage the team member of the group work
+    </p>
+    @Html.ValidationSummary(true)
+    @if (Model.GroupWork.ShowManageButton)
+    {
+        <div class="form-horizontal col-md-6">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    @Html.AntiForgeryToken()
+                    <h3>Add new group member</h3>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GroupWork.OwnerUID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.AddUID, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AddUID)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-primary" name="action" value="Add">Add</button>
+                            <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <div class="form-horizontal col-md-6">
+        <div class="row">
+            <h3>Group work</h3>
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupWork.OwnerUID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.GroupWork.OwnerUID, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupWork.CreatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.GroupWork.CreatedOn, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupWork.Course, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.GroupWork.Course, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupWork.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.GroupWork.Name, new { @class = "form-control", @readonly = "readonly", placeholder = @Html.PlaceholderFor(m => m.GroupWork.Name) })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupWork.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.GroupWork.Notes, new { @class = "form-control", @readonly = "readonly", placeholder = @Html.PlaceholderFor(m => m.GroupWork.Notes) })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        @Html.AntiForgeryToken()
+        <h3>Group member</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-2"></th>
+                    <th>UID</th>
+                    <th>Name</th>
+                    <th>Joined on <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span></th>
+                    <th>Left on</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Model.GroupWork.GroupWorkMembers)
+                {
+                    <tr>
+                        <td class="col-md-2">
+                            @if (member.ShowRemoveButton)
+                            {
+                                <button type="submit" class="btn btn-danger" name="action" value="Remove-@member.ID">Remove</button>
+                            }
+                        </td>
+                        <td>@member.UID</td>
+                        <td>-</td>
+                        <td>@member.AddedOn</td>
+                        <td>@member.DeletedOn</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,26 @@
+﻿@model Assignment.Models.CourseViewModel
+
+@{
+    ViewBag.Title = "Create a new course";
+}
+
+<h2>Create a new course</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.Partial("_EditCourseDetails")
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

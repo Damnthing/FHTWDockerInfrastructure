@@ -1,0 +1,27 @@
+﻿@model Assignment.Models.CourseViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Course @Model.Name</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.Partial("_EditCourseDetails")
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-default" href="@Url.Action("Index")">Back</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

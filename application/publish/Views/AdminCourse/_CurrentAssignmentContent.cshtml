@@ -1,0 +1,59 @@
+﻿@model Assignment.Models.AssignmentItemViewModel
+@Html.AntiForgeryToken()
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Name <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var si in Model.CurrentFileContent)
+            {
+                <tr>
+                    <td>
+                        @if (si.Added)
+                        { <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Added, not commited yet"></span> }
+                        @if (si.Deleting)
+                        { <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Deleting"></span> }
+                        @if (si.Modified)
+                        { <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" title="Modified"></span> }
+                        @if (si.IsHidden)
+                        { <span class="glyphicon glyphicon-education" aria-hidden="true" title="Hidden file"></span> }
+                    </td>
+                    <td>@si.FilePath</td>
+                    <td><button type="submit" class="btn btn-danger" name="file" value="@si.FilePath">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-default" href="@Url.Action("DownloadAssignment", new { id = Model.ID })">Download</a>
+    <button type="submit" class="btn btn-danger pull-right" name="file" value="">Delete all</button>
+</div>
+@if (Model.UnCommitedFileChanges)
+{
+    <br />
+        <div class="row">
+            <div class="alert alert-danger">Warning! Uncommited changes found!</div>
+        </div>
+}
+<h3>History</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Timestamp <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var si in Model.FileCommits)
+            {
+            <tr>
+                <td>@si.Timestamp</td>
+                <td>@si.Message</td>
+            </tr>
+        }
+    </tbody>
+</table>
