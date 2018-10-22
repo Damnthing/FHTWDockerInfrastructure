@@ -44,21 +44,15 @@ RUN sed -i /etc/ssh/sshd_config \
         -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
         -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
         -e 's/#LogLevel.*/LogLevel INFO/' && \
-    mkdir /var/run/sshd
+    mkdir -p /var/run/sshd
 
 VOLUME "${JENKINS_AGENT_HOME}" "/tmp" "/run" "/var/run"
 WORKDIR "${JENKINS_AGENT_HOME}"
 
-#COPY setup-sshd /usr/local/bin/setup-sshd
-#RUN chmod 754 /usr/local/bin/setup-sshd
+RUN mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+RUN mkdir -p /init
 
-#COPY setup-sshd /init/setup-sshd
-#RUN chmod +x /init/setup-sshd
-
-RUN mkdir -p ${JENKINS_AGENT_HOME}/.ssh
-COPY gitblit.key ${JENKINS_AGENT_HOME}/.ssh/gitblit.key
 COPY config ${JENKINS_AGENT_HOME}/.ssh/config
-
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 
