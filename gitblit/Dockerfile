@@ -1,6 +1,6 @@
 FROM jacekkow/gitblit
 
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
+COPY init.sh /init/init.sh
+RUN chmod +x /init/init.sh
 
-CMD /init.sh
+CMD /init/init.sh
