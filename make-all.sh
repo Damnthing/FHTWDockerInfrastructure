@@ -29,6 +29,6 @@
 	docker image build -t database:dev .
 )
 (
-	cd Assignment
+	cd application
 	docker image build -t application:dev .
 )
