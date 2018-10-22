@@ -50,9 +50,9 @@ VOLUME "${JENKINS_AGENT_HOME}" "/tmp" "/run" "/var/run"
 WORKDIR "${JENKINS_AGENT_HOME}"
 
 RUN mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
-RUN mkdir -p /init
-
 COPY config ${JENKINS_AGENT_HOME}/.ssh/config
+
+RUN mkdir -p /init
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 
