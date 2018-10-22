@@ -57,6 +57,8 @@ services:
     environment:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/git
       - VIRTUAL_PORT=8080
+    secrets:
+      - gitblit-public-key
     networks:
       - jenkins-network
 
@@ -96,6 +98,8 @@ secrets:
   jenkins-node-public-key:
     external: true
   gitblit-private-key:
+    external: true
+  gitblit-public-key:
     external: true
   jenkins-master-public-key:
     external: true
