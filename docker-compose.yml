@@ -15,6 +15,7 @@ services:
       - jenkins-user
       - jenkins-pass
       - jenkins-node-private-key
+      - gitblit-private-key
     networks:
       - jenkins-network
     depends_on:
