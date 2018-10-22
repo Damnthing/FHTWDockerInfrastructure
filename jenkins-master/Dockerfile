@@ -9,14 +9,12 @@ COPY slave.groovy /usr/share/jenkins/ref/init.groovy.d/slave.groovy
 COPY plugins.txt /tmp/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /tmp/plugins.txt
 
-COPY jenkins-slave-rsa /var/jenkins_home/.ssh/gitblit.key 
-COPY config /var/jenkins_home/.ssh/config
+COPY config "${JENKINS_HOME}/.ssh/config"
 COPY init.sh /init/init.sh
 
 USER root
-RUN chown -R jenkins:jenkins /var/jenkins_home/.ssh
-RUN chmod 600 /var/jenkins_home/.ssh/gitblit.key
-RUN chmod 660 /var/jenkins_home/.ssh/config
+RUN chown -R jenkins:jenkins ${JENKINS_HOME}/.ssh
+RUN chmod 660 ${JENKINS_HOME}/.ssh/config
 RUN chmod +x /init/init.sh
 USER jenkins
 
