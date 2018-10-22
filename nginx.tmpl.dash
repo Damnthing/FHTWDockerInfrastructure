@@ -23,7 +23,6 @@
 			server 127.0.0.1 down;
 		{{ end }}
 	{{ end }}
-	
 {{ end }}
 
 {{ define "locations" }}
@@ -99,19 +98,17 @@
 		fastcgi_param  PATH_INFO         "";
 		fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
 	{{ end }}
-{{}}
+{{ end }}
 
 {{ range $subdir, $containers := groupByMulti $ "Env.NGINX_PROXY_SUBDIRECTORY" "," }}
 	{{ $upstreamString := replace $subdir "/" "-" -1 }}
 	upstream {{ $upstreamString }} {
 	{{ range $container := $containers }}
 		{{ $addrLen := len $container.Addresses }}
-
 		{{ range $knownNetwork := $CurrentContainer.Networks }}
 			{{ range $containerNetwork := $container.Networks }}
 				{{ if (and (ne $containerNetwork.Name "ingress") (or (eq $knownNetwork.Name $containerNetwork.Name) (eq $knownNetwork.Name "host"))) }}
 					## Can be connected with "{{ $containerNetwork.Name }}" network
-
 					{{/* If only 1 port exposed, use that */}}
 					{{ if eq $addrLen 1 }}
 						# If only 1 port exposed, use that
