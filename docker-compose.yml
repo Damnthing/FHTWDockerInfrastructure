@@ -69,6 +69,7 @@ services:
     image: application:dev
     environment:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/Assignment
+      - VIRTUAL_PROTO=fastcgi
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
     ports:
