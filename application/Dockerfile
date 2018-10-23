@@ -8,7 +8,7 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/*
 ENV BIND_TO=eth2
 ENV VIRTUAL_ROOT=/assignment
 
-RUN echo "#!/bin/sh\nexport MONO_OPTIONS="--debug"\nfastcgi-mono-server4 /applications=/gpr1/assignment/:/app /socket=tcp:\$(ip -4 addr show \$BIND_TO| grep -Po 'inet \K[\d.]+'):9000 /verbose=True /printlog=True" > /opt/mono-fastcgi
+RUN echo "#!/bin/sh\nexport MONO_OPTIONS="--debug"\nfastcgi-mono-server4 /applications=/gpr1/assignment:/app /socket=tcp:\$(ip -4 addr show \$BIND_TO| grep -Po 'inet \K[\d.]+'):9000 /verbose=True /printlog=True" > /opt/mono-fastcgi
 RUN chmod +x /opt/mono-fastcgi
 
 RUN mkdir -p ./App_Data
