@@ -68,6 +68,8 @@ services:
       - POSTGRES_DB=Abgabe
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+    networks:
+      - jenkins-network
 
   adminer:
     image: adminer
@@ -77,7 +79,7 @@ services:
   application:
     image: application:dev
     environment:
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/Assignment
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/assignment
       - VIRTUAL_PROTO=fastcgi
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
