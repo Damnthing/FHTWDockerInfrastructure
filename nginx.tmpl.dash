@@ -32,6 +32,7 @@
 			{{ $proto := or (first (groupByKeys $containers "Env.VIRTUAL_PROTO")) "http" }}
 			
 			{{ if eq $proto "fastcgi" }}
+				root   /app;
 				fastcgi_pass {{ trim $upstreamString }};
 				{{ template "fastcgi_headers" $ }}
 			{{ else }}
