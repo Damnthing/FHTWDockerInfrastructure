@@ -1,4 +1,4 @@
-FROM mono:5.12
+FROM mono:5.16
 WORKDIR /gpr1/assignment
 
 RUN apt-get update
@@ -20,6 +20,7 @@ COPY ./publish/Views ./Views
 COPY ./publish/favicon.png ./favicon.png
 COPY ./publish/Global.asax ./Global.asax
 COPY ./publish/Docker.Web.config ./Web.config
+COPY ./publish/Views/_ViewStart.cshtml ./ViewStart.cshtml
 
 #RUN sed -i 's|$POSTGRES_USER|'"$POSTGRES_USER"'|g' Web.config
 #RUN sed -i 's|$POSTGRES_PASSWORD|'"$POSTGRES_PASSWORD"'|g' Web.config
