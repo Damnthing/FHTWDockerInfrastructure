@@ -41,6 +41,7 @@ c:\workspace\SYS-Build-Assignment\Assignment\bin\System.Web.WebPages.Deployment.
 c:\workspace\SYS-Build-Assignment\Assignment\bin\System.Web.WebPages.dll
 c:\workspace\SYS-Build-Assignment\Assignment\bin\System.Web.WebPages.Razor.dll
 c:\workspace\SYS-Build-Assignment\Assignment\bin\WebGrease.dll
+c:\workspace\SYS-Build-Assignment\Assignment\bin\Novell.Directory.Ldap.dll
 c:\workspace\SYS-Build-Assignment\Assignment\bin\LibGit2Sharp.dll
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Assignment.Core.pdb
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Assignment.Core.dll.config

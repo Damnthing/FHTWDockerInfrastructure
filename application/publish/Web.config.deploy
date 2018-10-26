@@ -31,6 +31,22 @@
     <httpRuntime targetFramework="4.5.1" maxRequestLength="8192" />
     <customErrors mode="RemoteOnly" />
   </system.web>
+  <system.data>
+    <DbProviderFactories>
+      <remove invariant="Npgsql" />
+      <add name="Npgsql Data Provider" invariant="Npgsql" description=".Net Data Provider for PostgreSQL" type="Npgsql.NpgsqlFactory, Npgsql, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7" support="FF" />
+    </DbProviderFactories>
+  </system.data>
+  <connectionStrings>
+    <add name="Abgabe" connectionString="Data Source=localhost\SqlExpress;Initial Catalog=Abgabe;Integrated Security=true" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+      <provider invariantName="Npgsql" type="Npgsql.NpgsqlServices, EntityFramework6.Npgsql"/>
+    </providers>
+  </entityFramework>
   <system.webServer>
     <modules>
     </modules>
@@ -67,12 +83,6 @@
       </dependentAssembly>
     </assemblyBinding>
   </runtime>
-  <entityFramework>
-    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
-    <providers>
-      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
-    </providers>
-  </entityFramework>
   <log4net>
     <appender name="WebRollingFileAppender" type="log4net.Appender.RollingFileAppender">
       <file value="App_Data\Logging\Web.txt" />
@@ -107,7 +117,7 @@
       <appender-ref ref="TraceAppender" />
       <appender-ref ref="WebRollingFileAppender" />
     </root>
-	<logger name="Submissions">
+    <logger name="Submissions">
       <level value="INFO" />
       <appender-ref ref="SubmissionRollingFileAppender" />
     </logger>

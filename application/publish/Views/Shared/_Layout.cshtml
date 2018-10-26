@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-	<link rel="shortcut icon" href='@Url.Content("~/favicon.png")' />
+    <link rel="shortcut icon" href='@Url.Content("~/favicon.png")' />
     <script type="text/javascript">
         /* detected from browser settings */
         var zb_dp_dateformat = "@System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern.Replace('M', 'm')";
         var zb_dp_language = "@System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName";
         var zb_scripts_base_url = "@Url.Content("~/Scripts")";
     </script>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Url.RenderStyles("~/Content/css")
+    @Url.RenderScript("~/bundles/modernizr")
+    @Url.RenderScript("~/bundles/jquery")
+    @Url.RenderScript("~/bundles/bootstrap")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

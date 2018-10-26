@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -34,6 +35,38 @@ namespace Assignment
             }
 
             return new MvcHtmlString(string.Format("<div class=\"alert alert-warning\">{0}</div>", HttpUtility.HtmlEncode(msg)));
+        }
+
+        public static IHtmlString RenderScript(this UrlHelper helper, params string[] paths)
+        {
+            Boolean isDockerEnvironment = (System.Configuration.ConfigurationManager.AppSettings["isDockerEnvironment"] as string ?? "false") == "true";
+
+            if (isDockerEnvironment)
+            {
+                string homeDirectory = HttpContext.Current.Request.MapPath("~");
+                string virtualPath = homeDirectory.Replace("-", "/");
+                string[] virtualPaths = paths.Select(path => path.Replace("~", virtualPath)).ToArray();
+
+                return System.Web.Optimization.Scripts.Render(virtualPaths);
+            }
+
+            return System.Web.Optimization.Scripts.Render(paths);
+        }
+
+        public static IHtmlString RenderStyles(this UrlHelper helper, params string[] paths)
+        {
+            Boolean isDockerEnvironment = (System.Configuration.ConfigurationManager.AppSettings["isDockerEnvironment"] as string ?? "false") == "true";
+
+            if (isDockerEnvironment)
+            {
+                string homeDirectory = HttpContext.Current.Request.MapPath("~");
+                string virtualPath = homeDirectory.Replace("-", "/");
+                string[] virtualPaths = paths.Select(path => path.Replace("~", virtualPath)).ToArray();
+
+                return System.Web.Optimization.Styles.Render(virtualPaths);
+            }
+
+            return System.Web.Optimization.Styles.Render(paths);
         }
 
     }
