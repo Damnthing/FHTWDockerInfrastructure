@@ -1,7 +1,10 @@
-c:\workspace\SYS-Build-Assignment\Assignment\bin\NativeBinaries\amd64\git2-4a30c53.dll
-c:\workspace\SYS-Build-Assignment\Assignment\bin\NativeBinaries\amd64\git2-4a30c53.pdb
-c:\workspace\SYS-Build-Assignment\Assignment\bin\NativeBinaries\x86\git2-4a30c53.dll
-c:\workspace\SYS-Build-Assignment\Assignment\bin\NativeBinaries\x86\git2-4a30c53.pdb
+c:\workspace\SYS-Build-Assignment\Assignment\bin\LibGit2Sharp.dll.config
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\win32\x64\git2-15e1193.dll
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\win32\x64\git2-15e1193.pdb
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\win32\x86\git2-15e1193.dll
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\win32\x86\git2-15e1193.pdb
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\osx\libgit2-15e1193.dylib
+c:\workspace\SYS-Build-Assignment\Assignment\bin\lib\linux\x86_64\libgit2-15e1193.so
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Assignment.dll
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Assignment.pdb
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Antlr3.Runtime.dll
@@ -79,6 +82,7 @@ c:\workspace\SYS-Build-Assignment\Assignment\bin\Microsoft.Owin.Security.OAuth.x
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Microsoft.Owin.Security.Google.xml
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Microsoft.Owin.Security.Twitter.xml
 c:\workspace\SYS-Build-Assignment\Assignment\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+c:\workspace\SYS-Build-Assignment\Assignment\bin\LibGit2Sharp.pdb
 c:\workspace\SYS-Build-Assignment\Assignment\bin\LibGit2Sharp.xml
 c:\workspace\SYS-Build-Assignment\Assignment\obj\Debug\Assignment.csprojAssemblyReference.cache
 c:\workspace\SYS-Build-Assignment\Assignment\obj\Debug\Assignment.csproj.CoreCompileInputs.cache
