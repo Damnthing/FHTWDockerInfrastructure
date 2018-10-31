@@ -1,0 +1,15 @@
+Fastcgi: /gpr1:/gpr1 => Wichtig, dass gleich, welches ist wurscht
+Rewrite von /gpr1/assignment/* => /gpr1 mit break;
+Web.config => ~/assignment/... 
+SCRIPT_FILENAME auf /gpr1/$fastcgi ... WICHTIG (gpr1-assignment)
+
+
+
+RazorView Problem - not even reachable from mono source code - is external source
+AppDomainAppVirtual Path is correct - virtualPath not => Exception
+No Idea what to do???
+
+https://stackoverflow.com/questions/13682671/absolute-url-in-asp-bundle
+
+
+Url.Content() does not work with internal calls => System.Web.HttpRequest.MapPath Exception (wenn die URL nicht übereinstimmt z.b. bei rewrite)
