@@ -61,6 +61,8 @@ services:
       - gitblit-public-key
     networks:
       - jenkins-network
+    volumes:
+      - gitblit-repository-data:/opt/gitblit-data/git-repos
 
   database:
     image: database:dev
@@ -87,6 +89,8 @@ services:
       - 9000:9000
     networks:
       - jenkins-network
+    volumes:
+      - gitblit-repository-data:/git-repos
     depends_on:
       - "database"
  
@@ -109,4 +113,8 @@ secrets:
 networks:
   jenkins-network:
      driver: overlay
+
+volumes:
+  gitblit-repository-data:
+     driver: local
 
