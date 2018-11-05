@@ -10,7 +10,7 @@ String ldap_userSearch = 'uid={0}'
 String ldap_groupSearchBase = ''
 String ldap_managerPassword = '{AQAAABAAAAAQ5yEQuh/4XgviVu8SU0ARoaabXFRlyUMSTaAZUn+pt2I=}'
 boolean ldap_inhibitInferRootDN = false
-b ldap_disableMailAddressResolver = false
+boolean ldap_disableMailAddressResolver = false
 String ldap_displayNameAttributeName = 'cn'
 String ldap_mailAddressAttributeName = 'mail'
 
