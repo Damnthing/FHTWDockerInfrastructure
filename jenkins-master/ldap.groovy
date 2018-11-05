@@ -2,21 +2,7 @@ import jenkins.model.*
 import hudson.security.*
 import org.jenkinsci.plugins.*
 
-String ldap_server = 'ldap.technikum-wien.at:389'
-String ldap_rootDN = 'dc=technikum-wien,dc=at'
-String ldap_userSearchBase = 'ou=People'
-String ldap_userSearch = 'uid={0}'
-String ldap_groupSearchBase = ''
-String managerDN = ''
-String managerPassword = '{AQAAABAAAAAQ5yEQuh/4XgviVu8SU0ARoaabXFRlyUMSTaAZUn+pt2I=}'
-boolean inhibitInferRootDN = false
-String ldap_disableMailAddressResolver = false
-String ldap_displayNameAttributeName = 'cn'
-String ldap_mailAddressAttributeName = 'mail'
-    
-SecurityRealm ldap_realm = new LDAPSecurityRealm(server, rootDN, userSearchBase, userSearch, groupSearchBase, managerDN, managerPassword, inhibitInferRootDN) 
-Jenkins.instance.setSecurityRealm(ldap_realm)
-Jenkins.instance.save()
+def instance = Jenkins.getInstance()
 
 def ldapRealm = new LDAPSecurityRealm(
 	ldap_server, //String server
