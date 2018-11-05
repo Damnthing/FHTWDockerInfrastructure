@@ -14,6 +14,8 @@ boolean ldap_disableMailAddressResolver = false
 String ldap_displayNameAttributeName = 'cn'
 String ldap_mailAddressAttributeName = 'mail'
 
+def instance = Jenkins.getInstance()
+
 def ldapRealm = new LDAPSecurityRealm(
 	ldap_server, //String server
 	ldap_rootDN, //String rootDN
