@@ -17,6 +17,8 @@ def projectRoleAnonymous = "anonymous";
 def globalRoleAdmin = "admin";
 def globalRoleAnonymous = "anonymous";
 
+def pattern = "SYS-.*|Build-Slides-.*";
+
 def instance = Jenkins.getInstance();
 
 RoleBasedAuthorizationStrategy roleBasedAuthenticationStrategy = new RoleBasedAuthorizationStrategy();
@@ -62,7 +64,7 @@ Set<Permission> projectAnonymousPermissions = new HashSet<Permission>();
 projectAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Read"));
 projectAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
-Role projectAnonymousRole = new Role(projectRoleAnonymous, projectAnonymousPermissions);
+Role projectAnonymousRole = new Role(projectRoleAnonymous, pattern, projectAnonymousPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.PROJECT, projectAnonymousRole);
 
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.PROJECT, projectAnonymousRole, "anonymous");
