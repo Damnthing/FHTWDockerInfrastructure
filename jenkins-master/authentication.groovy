@@ -12,10 +12,10 @@ import java.lang.reflect.*
 
 def projectRoleCoOwnerNoSid = "CoOwnerNoSid";
 def projectRoleOwnerNoSid = "OwnerNoSid";
-def projectRoleAnonymous = "projectAnonymous";
+def projectRoleAnonymous = "anonymous";
 
 def globalRoleAdmin = "admin";
-def globalRole = "globalAnonymous";
+def globalRoleAnonymous = "anonymous";
 
 def instance = Jenkins.getInstance();
 
@@ -103,7 +103,7 @@ adminPermissions.add(Permission.fromId("com.synopsys.arc.jenkins.plugins.ownersh
 adminPermissions.add(Permission.fromId("hudson.model.Computer.Disconnect"));
 adminPermissions.add(Permission.fromId("hudson.model.Run.Update"));
 
-Role adminRole = new Role(projectRoleAnonymous, adminPermissions);
+Role adminRole = new Role(globalRoleAdmin, adminPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole);
 
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole, "kirchhof");
@@ -113,7 +113,7 @@ Set<Permission> globalAnonymousPermissions = new HashSet<Permission>();
 globalAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Read"));
 globalAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
-Role globalAnonymousRole = new Role(projectRoleAnonymous, globalAnonymousPermissions);
+Role globalAnonymousRole = new Role(globalRoleAnonymous, globalAnonymousPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.GLOBAL, globalAnonymousRole);
 
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, globalAnonymousRole, "anonymous");
