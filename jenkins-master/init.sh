@@ -2,6 +2,7 @@
 
 mkdir -p "${JENKINS_HOME}/.ssh"
 
+cp /tmp/config "${JENKINS_HOME}/.ssh/config"
 cp /run/secrets/gitblit-private-key "${JENKINS_HOME}/.ssh/gitblit.key"
 
 gitblitKey=`ssh-keyscan -p 29418 gitblit`
