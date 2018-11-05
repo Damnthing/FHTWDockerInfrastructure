@@ -112,7 +112,7 @@ roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL
 
 //Create globalAnonymous set of permissions
 Set<Permission> globalAnonymousPermissions = new HashSet<Permission>();
-globalAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Read"));
+globalAnonymousPermissions.add(Permission.fromId("hudson.model.Hudson.Read"));
 globalAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
 Role globalAnonymousRole = new Role(globalRoleAnonymous, globalAnonymousPermissions);
