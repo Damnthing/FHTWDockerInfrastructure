@@ -9,7 +9,7 @@
   </disabledAdministrativeMonitors>
   <version>2.148</version>
   <installStateName>RESTART</installStateName>
-  <numExecutors>4</numExecutors>
+  <numExecutors>0</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="com.michelin.cio.hudson.plugins.rolestrategy.RoleBasedAuthorizationStrategy">

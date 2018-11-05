@@ -4,6 +4,7 @@ USER root
 
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
+COPY ldap.groovy /usr/share/jenkins/ref/init.groovy.d/ldap.groovy
 COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
 COPY credentials.groovy /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
 COPY slave.groovy /usr/share/jenkins/ref/init.groovy.d/slave.groovy
