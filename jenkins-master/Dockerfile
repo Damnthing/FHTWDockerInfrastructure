@@ -14,6 +14,9 @@ RUN /usr/local/bin/install-plugins.sh < /tmp/plugins.txt
 COPY config /tmp/config
 RUN chown jenkins:jenkins /tmp/config
 
+COPY config.xml /tmp/config.xml
+RUN chown jenkins:jenkins /tmp/config.xml
+
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 

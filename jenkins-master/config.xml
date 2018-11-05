@@ -86,22 +86,7 @@
           <permission>hudson.model.Run.Update</permission>
         </permissions>
         <assignedSIDs>
-          <sid>rubenzer</sid>
-          <sid>ahofmann</sid>
-          <sid>holzerr</sid>
-          <sid>mandl</sid>
-          <sid>krammert</sid>
-          <sid>zaczek</sid>
-          <sid>plageman</sid>
-          <sid>richter</sid>
-          <sid>gholweg</sid>
-          <sid>gmeiner</sid>
-          <sid>cerny</sid>
-          <sid>strommer</sid>
-          <sid>pam</sid>
-          <sid>kirchhof</sid>
-          <sid>meyerd</sid>
-          <sid>straessl</sid>
+          <sid>admin</sid>
         </assignedSIDs>
       </role>
       <role name="anonymous" pattern=".*">
@@ -152,18 +137,12 @@
   </securityRealm>
   <disableRememberMe>false</disableRememberMe>
   <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
-  <workspaceDir>c:/workspace/${ITEM_FULLNAME}</workspaceDir>
+  <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULLNAME}</workspaceDir>
   <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
   <markupFormatter class="hudson.markup.RawHtmlMarkupFormatter" plugin="antisamy-markup-formatter@1.5">
     <disableSyntaxHighlighting>false</disableSyntaxHighlighting>
   </markupFormatter>
-  <jdks>
-    <jdk>
-      <name>jdk-10.0.2</name>
-      <home>C:\Program Files\Java\jdk-10.0.2</home>
-      <properties/>
-    </jdk>
-  </jdks>
+  <jdks />
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds/>
@@ -239,7 +218,8 @@
   </disabledAgentProtocols>
   <label></label>
   <nodeProperties/>
-  <globalNodeProperties>
+  <globalNodeProperties/>
+  <!--globalNodeProperties>
     <hudson.slaves.EnvironmentVariablesNodeProperty>
       <envVars serialization="custom">
         <unserializable-parents/>
@@ -257,6 +237,6 @@
         </tree-map>
       </envVars>
     </hudson.slaves.EnvironmentVariablesNodeProperty>
-  </globalNodeProperties>
+  </globalNodeProperties-->
   <noUsageStatistics>true</noUsageStatistics>
 </hudson>
