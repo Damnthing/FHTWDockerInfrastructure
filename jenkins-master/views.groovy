@@ -3,6 +3,7 @@ import org.kohsuke.stapler.StaplerResponse
 import hudson.markup.RawHtmlMarkupFormatter
 import jenkins.model.Jenkins
 import hudson.model.ListView
+import java.util.*
 
 // get Jenkins instance
 def jenkins = Jenkins.getInstance();
@@ -27,7 +28,7 @@ dashboardView.doSubmitDescription([ getParameter: { return """
 	<p>
 		There is only one view, as each view will increase the page load time, see <a href="https://issues.jenkins-ci.org/browse/JENKINS-18377">https://issues.jenkins-ci.org/browse/JENKINS-18377</a> for the reason
 	</p>
-	"""; }] as StaplerRequest, [ sendRedirect: { return; } ]
+	"""; }] as StaplerRequest, [ sendRedirect: { return; } ]);
 	
 List<ListViewColumn> columns = new ArrayList<ListViewColumn>();
 columns.add(new StatusColumn());
