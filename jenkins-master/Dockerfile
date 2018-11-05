@@ -4,6 +4,9 @@ USER root
 
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
+COPY plugins.txt /tmp/plugins.txt
+RUN /usr/local/bin/install-plugins.sh < /tmp/plugins.txt
+
 COPY authentication.groovy /usr/share/jenkins/ref/init.groovy.d/authentication.groovy
 COPY ldap.groovy /usr/share/jenkins/ref/init.groovy.d/ldap.groovy
 #COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
@@ -11,9 +14,6 @@ COPY credentials.groovy /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
 COPY slave.groovy /usr/share/jenkins/ref/init.groovy.d/slave.groovy
 COPY views.groovy /usr/share/jenkins/ref/init.groovy.d/views.groovy
  
-COPY plugins.txt /tmp/plugins.txt
-RUN /usr/local/bin/install-plugins.sh < /tmp/plugins.txt
-
 COPY config /tmp/config
 RUN chown jenkins:jenkins /tmp/config
 
