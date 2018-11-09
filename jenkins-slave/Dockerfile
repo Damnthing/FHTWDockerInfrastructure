@@ -34,9 +34,9 @@ ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME}
 RUN groupadd -g ${gid} ${group} \
     && useradd -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m -s /bin/bash "${user}"
 
-# setup SSH server
+# setup SSH server mono??? core???
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y openssh-server \
+    && apt-get install --no-install-recommends -y openssh-server mono dotnet-core-2.1\
     && rm -rf /var/lib/apt/lists/*
 RUN sed -i /etc/ssh/sshd_config \
         -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
