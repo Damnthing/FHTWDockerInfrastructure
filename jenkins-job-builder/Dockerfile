@@ -3,9 +3,9 @@ FROM jenkins-slave:dev
  
 USER root
 
-RUN apt-get update
-RUN apt-get install -y python
-RUN apt-get install -y python-pip
+RUN apt-get update \
+	&& apt-get install -y python python-pip \ 
+	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /
 
