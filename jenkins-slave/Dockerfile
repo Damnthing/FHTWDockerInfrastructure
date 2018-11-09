@@ -49,13 +49,13 @@ RUN apt-get update \
     	&& apt-get update \
 	&& apt-get install --no-install-recommends -y openssh-server mono-runtime dotnet-sdk-2.1 \
     	&& rm -rf /var/lib/apt/lists/*
-#RUN sed -i /etc/ssh/sshd_config \
-#        -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
-#        -e 's/#RSAAuthentication.*/RSAAuthentication yes/'  \
-#        -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
-#        -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
-#        -e 's/#LogLevel.*/LogLevel INFO/' && \
-#    mkdir -p /var/run/sshd
+RUN sed -i /etc/ssh/sshd_config \
+        -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
+        -e 's/#RSAAuthentication.*/RSAAuthentication yes/'  \
+        -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
+        -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
+        -e 's/#LogLevel.*/LogLevel INFO/' && \
+    mkdir -p /var/run/sshd
 
 # set working directory
 WORKDIR "${JENKINS_AGENT_HOME}"

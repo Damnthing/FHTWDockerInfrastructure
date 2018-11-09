@@ -15,7 +15,7 @@ SshHostKeyVerificationStrategy hostKeyVerificationStrategy = new KnownHostsFileK
 ComputerLauncher launcher = new hudson.plugins.sshslaves.SSHLauncher(
         "jenkins-slave", // Host
         22, // Port
-        "jenkins-slave-private-key", // Credentials
+        "ssh-slave-private-key", // Credentials
         (String)null, // JVM Options
         (String)null, // JavaPath
         (String)null, // Prefix Start Slave Command

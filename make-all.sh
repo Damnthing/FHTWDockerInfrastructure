@@ -5,10 +5,6 @@
 	docker image build -t nginx-proxy:dev .
 )
 (
-	cd jenkins-master-origin
-	docker image build -t jenkins-master-origin:dev .
-)
-(
 	cd jenkins-master
 	docker image build -t jenkins-master:dev .
 )
@@ -19,6 +15,10 @@
 (
 	cd jenkins-job-builder
 	docker image build -t jenkins-job-builder:dev .
+)
+(
+	cd jenkins-slave-build-essential
+	docker image build -t jenkins-slave-build-essential:dev .
 )
 (
 	cd gitblit

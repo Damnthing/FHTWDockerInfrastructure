@@ -2,7 +2,7 @@
 
 # copy keys and set ownership to jenkins-slave
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
-cp /run/secrets/jenkins-master-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
+cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
 cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"
 chown -Rf jenkins-slave:jenkins "${JENKINS_AGENT_HOME}/.ssh"
@@ -12,7 +12,6 @@ chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 env | grep _ >> /etc/environment
 
 # add internal git server to known_hosts file
-mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
 while [ -z "$gitInternalSshKey" ]
 do
