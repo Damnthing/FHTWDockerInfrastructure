@@ -12,10 +12,8 @@ services:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
       - VIRTUAL_PORT=8080
     secrets:
-      - jenkins-user
-      - jenkins-pass
-      - jenkins-node-private-key
-      - gitblit-private-key
+      - git-internal-private-key
+      - ssh-slave-private-key
     networks:
       - jenkins-network
     depends_on:
@@ -26,8 +24,8 @@ services:
     environment:
       - FACH_FULL=gpr1/jenkins
     secrets:
-      - gitblit-private-key
-      - jenkins-master-public-key
+      - git-external-private-key
+      - ssh-slave-public-key
     networks:
       - jenkins-network
     depends_on:
@@ -40,8 +38,9 @@ services:
     environment:
       - JENKINS_SLAVE_SSH_PUBKEY=
     secrets:
-      - gitblit-private-key
-      - jenkins-master-public-key
+      - git-internal-private-key
+      - git-external-private-key
+      - ssh-slave-public-key
     networks:
       - jenkins-network
     depends_on:
@@ -58,7 +57,7 @@ services:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/git
       - VIRTUAL_PORT=8080
     secrets:
-      - gitblit-public-key
+      - git-internal-public-key
     networks:
       - jenkins-network
     volumes:
@@ -95,19 +94,15 @@ services:
       - "database"
  
 secrets:
-  jenkins-user:
+  git-internal-private-key:
     external: true
-  jenkins-pass:
+  git-internal-public-key:
     external: true
-  jenkins-node-private-key:
+  git-external-private-key:
     external: true
-  jenkins-node-public-key:
+  ssh-slave-private-key:
     external: true
-  gitblit-private-key:
-    external: true
-  gitblit-public-key:
-    external: true
-  jenkins-master-public-key:
+  ssh-slave-public-key:
     external: true
 
 networks:

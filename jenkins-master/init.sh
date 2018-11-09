@@ -1,31 +1,37 @@
 #!/bin/bash
 
+# create .ssh directory
 mkdir -p "${JENKINS_HOME}/.ssh"
 
+# copy git config
 cp /tmp/config "${JENKINS_HOME}/.ssh/config"
-#cp /tmp/config.xml "${JENKINS_HOME}/config.xml"
-cp /run/secrets/gitblit-private-key "${JENKINS_HOME}/.ssh/gitblit.key"
 
-gitblitKey=`ssh-keyscan -p 29418 gitblit`
-while [ -z "$gitblitKey" ]
-do
-	gitblitKey=`ssh-keyscan -p 29418 gitblit`
-done
-echo $gitblitKey >> "${JENKINS_HOME}/.ssh/known_hosts"
+# copy key
+cp /run/secrets/git-internal-private-key "${JENKINS_HOME}/.ssh/git-internal-private-key"
 
-jenkinsSlaveKey=`ssh-keyscan jenkins-slave`
-while [ -z "$jenkinsSlaveKey" ]
+# add internal git server to known_hosts file
+gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
+while [ -z "$gitInternalSshKey" ]
 do
-        jenkinsSlaveKey=`ssh-keyscan jenkins-slave`
+        gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
 done
-echo $jenkinsSlaveKey >> "${JENKINS_HOME}/.ssh/known_hosts"
+echo $gitInternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
 
-jenkinsJobBuilderKey=`ssh-keyscan jenkins-job-builder`
-while [ -z "$jenkinsJobBuilderKey" ]
+# add jenkins slave server to known_hosts file
+jenkinsSlaveSshKey=`ssh-keyscan jenkins-slave`
+while [ -z "$jenkinsSlaveSshKey" ]
 do
-        jenkinsJobBuilderKey=`ssh-keyscan jenkins-job-builder`
+        jenkinsSlaveSshKey=`ssh-keyscan jenkins-slave`
 done
-echo $jenkinsJobBuilderKey >> "${JENKINS_HOME}/.ssh/known_hosts"
+echo $jenkinsSlaveSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
+
+# add jenkins job builder server to known_hosts file
+jenkinsJobBuilderSshKey=`ssh-keyscan jenkins-job-builder`
+while [ -z "$jenkinsJobBuilderSshKey" ]
+do
+        jenkinsJobBuilderSshKey=`ssh-keyscan jenkins-job-builder`
+done
+echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
 
 sh `/sbin/tini -- /usr/local/bin/jenkins.sh`
 

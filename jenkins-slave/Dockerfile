@@ -23,18 +23,21 @@
 FROM openjdk:8-jdk
 LABEL MAINTAINER="Nicolas De Loof <nicolas.deloof@gmail.com>"
 
+# set arguments
 ARG user=jenkins-slave
 ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
 ARG JENKINS_AGENT_HOME=/home/${user}
 
+# set environment variables
 ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME}
 
+# configure user and group
 RUN groupadd -g ${gid} ${group} \
     && useradd -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m -s /bin/bash "${user}"
 
-# setup SSH server mono??? core???
+# install oppenssh-server, mono-runtime and dotnet-sdk-2.1
 RUN apt-get update \
 	&& apt-get install apt-transport-https \ 
 	&& wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg \
@@ -46,22 +49,29 @@ RUN apt-get update \
     	&& apt-get update \
 	&& apt-get install --no-install-recommends -y openssh-server mono-runtime dotnet-sdk-2.1 \
     	&& rm -rf /var/lib/apt/lists/*
-RUN sed -i /etc/ssh/sshd_config \
-        -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
-        -e 's/#RSAAuthentication.*/RSAAuthentication yes/'  \
-        -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
-        -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
-        -e 's/#LogLevel.*/LogLevel INFO/' && \
-    mkdir -p /var/run/sshd
+#RUN sed -i /etc/ssh/sshd_config \
+#        -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
+#        -e 's/#RSAAuthentication.*/RSAAuthentication yes/'  \
+#        -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
+#        -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
+#        -e 's/#LogLevel.*/LogLevel INFO/' && \
+#    mkdir -p /var/run/sshd
 
+# set working directory
 WORKDIR "${JENKINS_AGENT_HOME}"
 
+# create .ssh directory
 RUN mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+
+# copy git config
 COPY config ${JENKINS_AGENT_HOME}/.ssh/config
 
+# copy init script
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 
+# expose port 22
 EXPOSE 22
 
+# start image with init.sh script
 ENTRYPOINT ["/init/init.sh"]
