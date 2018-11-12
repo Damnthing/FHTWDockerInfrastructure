@@ -2,10 +2,11 @@
 
 # copy keys and set ownership to jenkins-slave
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
 cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"
-chown -Rf jenkins-slave:jenkins "${JENKINS_AGENT_HOME}/.ssh"
+chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 
 # ensure variables passed to docker container are also exposed to ssh sessions

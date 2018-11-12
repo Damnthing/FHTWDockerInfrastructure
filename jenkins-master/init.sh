@@ -15,7 +15,7 @@ while [ -z "$gitInternalSshKey" ]
 do
         gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
 done
-echo $gitInternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
+echo $gitInternalSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
 
 # add jenkins slave server to known_hosts file
 jenkinsSlaveSshKey=`ssh-keyscan jenkins-slave`

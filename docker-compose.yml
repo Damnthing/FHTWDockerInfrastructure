@@ -32,7 +32,7 @@ services:
       - "gitblit"
 
   jenkins-slave:
-    image: jenkins-slave-build-essential:dev
+    image: jenkins-slave:dev
     ports:
       - 22:22
     environment:

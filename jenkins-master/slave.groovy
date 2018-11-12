@@ -29,7 +29,7 @@ ComputerLauncher launcher = new hudson.plugins.sshslaves.SSHLauncher(
 // Define a "Permanent Agent"
 Slave default_slave = new DumbSlave(
         "jenkins-slave",
-        "/home/jenkins-slave",
+        "/home/jenkins",
         launcher)
 default_slave.nodeDescription = "Slave"
 default_slave.numExecutors = 4
@@ -39,7 +39,7 @@ default_slave.retentionStrategy = new RetentionStrategy.Always()
 
 Slave job_builder_slave = new DumbSlave(
         "jenkins-job-builder",
-        "/home/jenkins-slave",
+        "/home/jenkins",
         launcher)
 job_builder_slave.nodeDescription = "JJB Executer"
 job_builder_slave.numExecutors = 1
