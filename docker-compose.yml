@@ -86,10 +86,13 @@ services:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/assignment
       - VIRTUAL_SUBDIRECTORY=gpr1-assignment
       - VIRTUAL_PROTO=fastcgi
-      - POSTGRES_USER_FILE=/u
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER_FILE=/run/secrets/postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-user
     ports:
       - 9000:9000
+    secrets:
+      - postgres-user
+      - postgres-password
     networks:
       - jenkins-network
     volumes:
