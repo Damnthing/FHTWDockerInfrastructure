@@ -55,6 +55,7 @@ services:
       - git-internal-public-key
     networks:
       - course-network
+      - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/git-repos
 
@@ -85,6 +86,7 @@ services:
       - postgres-password
     networks:
       - course-network
+      - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/git-repos
     depends_on:
@@ -109,7 +111,7 @@ secrets:
 networks:
   course-network:
      driver: overlay
-   nginx-proxy-network:
+  nginx-proxy-network:
      external: true
 
 volumes:
