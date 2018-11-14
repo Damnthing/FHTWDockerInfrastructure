@@ -4,37 +4,35 @@ services:
 
   jenkins-master:
     image: jenkins-master:dev
-    ports:
-      - 8080:8080
-      - 50000:50000
+#    ports:
+#      - 8080:8080
     environment:
-      - JENKINS_OPTS=--prefix=/gpr1/jenkins
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
+      - JENKINS_OPTS=--prefix=/gpr2/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=gpr2/jenkins
       - VIRTUAL_PORT=8080
     secrets:
       - git-internal-private-key
       - ssh-slave-private-key
     networks:
-      - jenkins-network
+      - course-network
+      - nginx-proxy-network
     depends_on:
       - "gitblit"
 
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
-      - FACH_FULL=gpr1/jenkins
+      - FACH_FULL=gpr2/jenkins
     secrets:
       - git-external-private-key
       - ssh-slave-public-key
     networks:
-      - jenkins-network
+      - course-network
     depends_on:
       - "gitblit"
 
   jenkins-slave:
     image: jenkins-slave:dev
-    ports:
-      - 22:22
     environment:
       - JENKINS_SLAVE_SSH_PUBKEY=
     secrets:
@@ -42,24 +40,21 @@ services:
       - git-external-private-key
       - ssh-slave-public-key
     networks:
-      - jenkins-network
+      - course-network
     depends_on:
       - "gitblit"
   
   gitblit:
     image: gitblit:dev
-    ports:
-      - 8181:8080
-      - 8443:8443
-      - 9418:9418
-      - 29418:29418
+#    ports:
+#      - 8181:8080
     environment:
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/git
+      - NGINX_PROXY_SUBDIRECTORY=gpr2/git
       - VIRTUAL_PORT=8080
     secrets:
       - git-internal-public-key
     networks:
-      - jenkins-network
+      - course-network
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/git-repos
 
@@ -73,28 +68,23 @@ services:
       - postgres-password
       - postgres-user
     networks:
-      - jenkins-network
-
-  adminer:
-    image: adminer
-    ports:
-      - 8585:8080
+      - course-network
 
   application:
     image: application:dev
     environment:
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/assignment
-      - VIRTUAL_SUBDIRECTORY=gpr1-assignment
+      - NGINX_PROXY_SUBDIRECTORY=gpr2/assignment
+      - VIRTUAL_SUBDIRECTORY=gpr2-assignment
       - VIRTUAL_PROTO=fastcgi
       - POSTGRES_USER_FILE=/run/secrets/postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-user
-    ports:
-      - 9000:9000
+#    ports:
+#      - 9000:9000
     secrets:
       - postgres-user
       - postgres-password
     networks:
-      - jenkins-network
+      - course-network
     volumes:
       - gitblit-repository-data:/git-repos
     depends_on:
@@ -117,8 +107,10 @@ secrets:
     external: true
 
 networks:
-  jenkins-network:
+  course-network:
      driver: overlay
+   nginx-proxy-network:
+     external: true
 
 volumes:
   gitblit-repository-data:

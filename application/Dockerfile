@@ -1,28 +1,36 @@
 FROM mono:5.16
 
 # set working directory
-WORKDIR /
+WORKDIR /build
 
 # install mono-fastcgi-server4 and git
 RUN apt-get update
 RUN apt-get install -y mono-fastcgi-server4 git
 RUN rm -rf /var/lib/apt/lists/* /tmp/*
 
+# build the application
+RUN git clone https://inf-swe-git.technikum-wien.at/r/SYSTEM/Assignment.git
+WORKDIR /build/Assignment
+RUN nuget restore Assignment.sln
+RUN msbuild Assignment.sln
+
 # copy application
 RUN mkdir -p /app/App_Data
-COPY ./publish/bin /app/bin
-COPY ./publish/Content /app/Content
-COPY ./publish/fonts /app/fonts
-COPY ./publish/Scripts /app/Scripts
-COPY ./publish/Views /app/Views
-COPY ./publish/favicon.png /app/favicon.png
-COPY ./publish/Global.asax /app/Global.asax
-COPY ./publish/Docker.Web.config /app/Web.config
-COPY ./publish/Views/_ViewStart.cshtml /app/ViewStart.cshtml
+RUN cp -R ./Assignment/bin /app/bin
+RUN cp -R ./Assignment/Content /app/Content
+RUN cp -R ./Assignment/fonts /app/fonts
+RUN cp -R ./Assignment/Scripts /app/Scripts
+RUN cp -R ./Assignment/Views /app/Views
+RUN cp -R ./Assignment/favicon.png /app/favicon.png
+RUN cp -R ./Assignment/Global.asax /app/Global.asax
+RUN cp -R ./Assignment/Docker.Web.config /app/Web.config
+RUN cp -R ./Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
 
 # copy git libs (putting right a bug)
-COPY ./publish/bin/lib/linux/x86_64/*.so /lib/
-COPY ./publish/bin/lib/ /app/lib/
+RUN cp -R ./Assignment/bin/lib/linux/x86_64/*.so /lib/
+RUN cp -R ./Assignment/bin/lib/ /app/lib/
+
+WORKDIR /
 
 COPY mono-fastcgi /opt/mono-fastcgi
 RUN chmod +x /opt/mono-fastcgi

@@ -1,2 +1,0 @@
-docker container run -p 82:80 -v /var/run/docker.sock:/tmp/docker.sock --name nginx-proxy
-docker network connect test_jenkins-network

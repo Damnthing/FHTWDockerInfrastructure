@@ -1,0 +1,118 @@
+version: '3.1'
+ 
+services:
+
+  jenkins-master:
+    image: jenkins-master:dev
+#    ports:
+#      - 8080:8080
+    environment:
+      - JENKINS_OPTS=--prefix=/gpr1/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
+      - VIRTUAL_PORT=8080
+    secrets:
+      - git-internal-private-key
+      - ssh-slave-private-key
+    networks:
+      - course-network
+      - nginx-proxy-network
+    depends_on:
+      - "gitblit"
+
+  jenkins-job-builder:
+    image: jenkins-job-builder:dev
+    environment:
+      - FACH_FULL=gpr1/jenkins
+    secrets:
+      - git-external-private-key
+      - ssh-slave-public-key
+    networks:
+      - course-network
+    depends_on:
+      - "gitblit"
+
+  jenkins-slave:
+    image: jenkins-slave:dev
+    environment:
+      - JENKINS_SLAVE_SSH_PUBKEY=
+    secrets:
+      - git-internal-private-key
+      - git-external-private-key
+      - ssh-slave-public-key
+    networks:
+      - course-network
+    depends_on:
+      - "gitblit"
+  
+  gitblit:
+    image: gitblit:dev
+#    ports:
+#      - 8181:8080
+    environment:
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/git
+      - VIRTUAL_PORT=8080
+    secrets:
+      - git-internal-public-key
+    networks:
+      - course-network
+    volumes:
+      - gitblit-repository-data:/opt/gitblit-data/git-repos
+
+  database:
+    image: database:dev
+    environment: 
+      - POSTGRES_DB=Abgabe
+      - POSTGRES_USER_FILE=/run/secrets/postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
+    secrets:
+      - postgres-password
+      - postgres-user
+    networks:
+      - course-network
+
+  application:
+    image: application:dev
+    environment:
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/assignment
+      - VIRTUAL_SUBDIRECTORY=gpr1-assignment
+      - VIRTUAL_PROTO=fastcgi
+      - POSTGRES_USER_FILE=/run/secrets/postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-user
+#    ports:
+#      - 9000:9000
+    secrets:
+      - postgres-user
+      - postgres-password
+    networks:
+      - course-network
+    volumes:
+      - gitblit-repository-data:/git-repos
+    depends_on:
+      - "database"
+ 
+secrets:
+  git-internal-private-key:
+    external: true
+  git-internal-public-key:
+    external: true
+  git-external-private-key:
+    external: true
+  ssh-slave-private-key:
+    external: true
+  ssh-slave-public-key:
+    external: true
+  postgres-password:
+    external: true
+  postgres-user:
+    external: true
+
+networks:
+  course-network:
+     driver: overlay
+   nginx-proxy-network:
+     external: true
+
+volumes:
+  gitblit-repository-data:
+     driver: local
+
