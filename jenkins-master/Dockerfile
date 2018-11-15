@@ -26,9 +26,6 @@ RUN chown jenkins:jenkins /tmp/config
 COPY init.sh /init/init.sh
 RUN chmod +x /init/init.sh
 
-# set ownership to user jenkins
-RUN chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
-
 # run image with user jenkins
 USER jenkins
 
