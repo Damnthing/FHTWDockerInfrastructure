@@ -22,7 +22,7 @@ services:
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
+      - COURSE=bif-ws18-gpr1
     secrets:
       - git-external-private-key
       - ssh-slave-public-key

@@ -15,8 +15,8 @@ RUN apt-get update \
 		&& rm -rf /var/lib/apt/lists/*
 		
 # copy reporting tool
-COPY ReportingTool.jar ${JENKINS_AGENT_HOME}/ReportingTool.jar
-COPY ReportingTool.properties ${JENKINS_AGENT_HOME}/ReportingTool.properties
+COPY ReportingTool.jar /workspace-custom/Common/ReportingTool.jar
+COPY ReportingTool.properties /workspace-custom/Common/ReportingTool.properties
 
 # copy git config
 COPY config /init/config
