@@ -51,8 +51,12 @@ services:
     environment:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/git
       - VIRTUAL_PORT=8080
+      - GITBLIT_INTERNAL_USER_FILE=/run/secrets/git-internal-user
+      - GITBLIT_INTERNAL_PASSWORD_FILE=/run/secrets/git-internal-password
     secrets:
       - git-internal-public-key
+      - git-internal-user
+      - git-internal-password
     networks:
       - course-network
       - nginx-proxy-network
@@ -78,7 +82,7 @@ services:
       - VIRTUAL_SUBDIRECTORY=gpr1-assignment
       - VIRTUAL_PROTO=fastcgi
       - POSTGRES_USER_FILE=/run/secrets/postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
 #    ports:
 #      - 9000:9000
     secrets:
@@ -103,9 +107,13 @@ secrets:
     external: true
   ssh-slave-public-key:
     external: true
-  postgres-password:
+  git-internal-user:
+    external: true
+  git-internal-password:
     external: true
   postgres-user:
+    external: true
+  postgres-password:
     external: true
 
 networks:
