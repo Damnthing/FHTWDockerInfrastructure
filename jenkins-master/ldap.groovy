@@ -3,19 +3,22 @@ import hudson.security.*
 import org.jenkinsci.plugins.*
 import hudson.util.Secret
 
-String ldap_server = 'ldap.technikum-wien.at:389'
-String ldap_rootDN = 'dc=technikum-wien,dc=at'
-String ldap_userSearchBase = 'ou=People'
-String ldap_userSearch = 'uid={0}'
-String ldap_groupSearchBase = ''
-String ldap_managerPassword = ''
-boolean ldap_inhibitInferRootDN = false
-boolean ldap_disableMailAddressResolver = false
-String ldap_displayNameAttributeName = 'cn'
-String ldap_mailAddressAttributeName = 'mail'
+// ldap configuration
+String ldap_server = 'ldap.technikum-wien.at:389';
+String ldap_rootDN = 'dc=technikum-wien,dc=at';
+String ldap_userSearchBase = 'ou=People';
+String ldap_userSearch = 'uid={0}';
+String ldap_groupSearchBase = '';
+String ldap_managerPassword = '';
+boolean ldap_inhibitInferRootDN = false;
+boolean ldap_disableMailAddressResolver = false;
+String ldap_displayNameAttributeName = 'cn';
+String ldap_mailAddressAttributeName = 'mail';
 
-def instance = Jenkins.getInstance()
+// get jenkins instance
+def instance = Jenkins.getInstance();
 
+// create the realm
 def ldapRealm = new LDAPSecurityRealm(
 	ldap_server, //String server
 	ldap_rootDN, //String rootDN
@@ -34,9 +37,10 @@ def ldapRealm = new LDAPSecurityRealm(
 	ldap_mailAddressAttributeName, //String mailAddressAttributeName
 	IdStrategy.CASE_INSENSITIVE, //IdStrategy userIdStrategy
 	IdStrategy.CASE_INSENSITIVE //IdStrategy groupIdStrategy >> defaults
-)
+);
 
-instance.setSecurityRealm(ldapRealm)
+// set the realm
+instance.setSecurityRealm(ldapRealm);
 
-// Save the state
-instance.save()
+// save the instance
+instance.save();

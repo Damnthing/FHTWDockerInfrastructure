@@ -1,7 +1,5 @@
+# use official jenkins-slave image
 FROM jenkins-slave:dev
-
-# build this image with user root
-USER root
 
 # install python and python-pip
 RUN apt-get update \

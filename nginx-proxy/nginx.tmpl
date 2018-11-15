@@ -1,5 +1,6 @@
 {{ $CurrentContainer := where $ "ID" .Docker.CurrentContainerID | first }}
 
+# define all upstreams
 {{ define "upstream" }}
 	{{ if .Address }}
 		{{/* If we got the containers from swarm and this container's port is published to host, use host IP:PORT */}}
@@ -25,10 +26,14 @@
 	{{ end }}
 {{ end }}
 
+# define locations
 {{ define "locations" }}
+	# one location for each NGINX_PROXY_SUBDIRECTORY
 	{{ range $subdir, $containers := groupByMulti $ "Env.NGINX_PROXY_SUBDIRECTORY" "," }}
+		# replace / with - in upstream names
 		{{ $upstreamString := replace $subdir "/" "-" -1 }}
 		location /{{ $subdir }} {
+			# check weather to use http or fastcgi
 			{{ $proto := or (first (groupByKeys $containers "Env.VIRTUAL_PROTO")) "http" }}
 			
 			{{ if eq $proto "fastcgi" }}

@@ -10,17 +10,22 @@ import com.cloudbees.plugins.credentials.CredentialsProvider.*
 import com.synopsys.arc.jenkins.plugins.ownership.OwnershipPlugin.*
 import java.lang.reflect.*
 
+// define project roles
 def projectRoleCoOwnerNoSid = "CoOwnerNoSid";
 def projectRoleOwnerNoSid = "OwnerNoSid";
 def projectRoleAnonymous = "anonymous";
 
+// define global roles
 def globalRoleAdmin = "admin";
 def globalRoleAnonymous = "anonymous";
 
+// pattern for views
 def pattern = "SYS-.*|Build-Slides-.*";
 
+// get jenkins instance
 def instance = Jenkins.getInstance();
 
+// role based authorization
 RoleBasedAuthorizationStrategy roleBasedAuthenticationStrategy = new RoleBasedAuthorizationStrategy();
 instance.setAuthorizationStrategy(roleBasedAuthenticationStrategy);
 
@@ -29,11 +34,11 @@ for (Constructor<?> c : constrs) {
 	c.setAccessible(true);
 }
 
-// Make the method assignRole accessible
+// make the method assignRole accessible
 Method assignRoleMethod = RoleBasedAuthorizationStrategy.class.getDeclaredMethod("assignRole", String.class, Role.class, String.class);
 assignRoleMethod.setAccessible(true);
 
-//Create CoOwnerNoSid set of permissions
+// create CoOwnerNoSid set of permissions
 Set<Permission> coOwnerNoSidPermissions = new HashSet<Permission>();
 coOwnerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Read"));
 coOwnerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Cancel"));
@@ -41,12 +46,12 @@ coOwnerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Workspace"));
 coOwnerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Build"));
 coOwnerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
+// create new role add and assign it
 Role coOwnerNoSidRole = new Role(projectRoleCoOwnerNoSid, coOwnerNoSidPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.PROJECT, coOwnerNoSidRole);
-
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.PROJECT, coOwnerNoSidRole, "authenticated");
 
-//Create OwnerNoSid set of permissions
+// create OwnerNoSid set of permissions
 Set<Permission> ownerNoSidPermissions = new HashSet<Permission>();
 ownerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Read"));
 ownerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Cancel"));
@@ -54,22 +59,22 @@ ownerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Workspace"));
 ownerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Build"));
 ownerNoSidPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
+// create new role add and assign it
 Role ownerNoSidRole = new Role(projectRoleOwnerNoSid, ownerNoSidPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.PROJECT, ownerNoSidRole);
-
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.PROJECT, ownerNoSidRole, "authenticated");
 
-//Create projectAnonymous set of permissions
+// create projectAnonymous set of permissions
 Set<Permission> projectAnonymousPermissions = new HashSet<Permission>();
 projectAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Read"));
 projectAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
+// create new role add and assign it
 Role projectAnonymousRole = new Role(projectRoleAnonymous, pattern, projectAnonymousPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.PROJECT, projectAnonymousRole);
-
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.PROJECT, projectAnonymousRole, "anonymous");
 
-//Create admin set of permissions
+// create admin set of permissions
 Set<Permission> adminPermissions = new HashSet<Permission>();
 adminPermissions.add(Permission.fromId("hudson.model.View.Delete"));
 adminPermissions.add(Permission.fromId("hudson.model.Computer.Connect"));
@@ -105,19 +110,20 @@ adminPermissions.add(Permission.fromId("com.synopsys.arc.jenkins.plugins.ownersh
 adminPermissions.add(Permission.fromId("hudson.model.Computer.Disconnect"));
 adminPermissions.add(Permission.fromId("hudson.model.Run.Update"));
 
+// create new role add and assign it
 Role adminRole = new Role(globalRoleAdmin, adminPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole);
-
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole, "TW_LKT");
 
-//Create globalAnonymous set of permissions
+// create globalAnonymous set of permissions
 Set<Permission> globalAnonymousPermissions = new HashSet<Permission>();
 globalAnonymousPermissions.add(Permission.fromId("hudson.model.Hudson.Read"));
 globalAnonymousPermissions.add(Permission.fromId("hudson.model.Item.Discover"));
 
+// create new role add and assign it
 Role globalAnonymousRole = new Role(globalRoleAnonymous, globalAnonymousPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.GLOBAL, globalAnonymousRole);
-
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, globalAnonymousRole, "anonymous");
 
+// save the instance
 instance.save();

@@ -37,5 +37,6 @@ echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
 chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
 chmod 0700 -R "${JENKINS_HOME}/.ssh"
 
+# start the jenkins server
 sh `/sbin/tini -- /usr/local/bin/jenkins.sh`
 
