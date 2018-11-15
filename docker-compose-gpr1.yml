@@ -57,7 +57,7 @@ services:
       - course-network
       - nginx-proxy-network
     volumes:
-      - gitblit-repository-data:/opt/gitblit-data/git-repos
+      - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
 
   database:
     image: database:dev
@@ -88,7 +88,7 @@ services:
       - course-network
       - nginx-proxy-network
     volumes:
-      - gitblit-repository-data:/git-repos
+      - gitblit-repository-data:/gitblit-repositories
     depends_on:
       - "database"
  
