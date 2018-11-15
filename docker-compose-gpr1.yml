@@ -49,7 +49,7 @@ services:
 #    ports:
 #      - 8181:8080
     environment:
-      - NGINX_PROXY_SUBDIRECTORY=gpr1/git
+      - NGINX_PROXY_SUBDIRECTORY=gpr1/gitblit
       - VIRTUAL_PORT=8080
       - GITBLIT_INTERNAL_USER_FILE=/run/secrets/git-internal-user
       - GITBLIT_INTERNAL_PASSWORD_FILE=/run/secrets/git-internal-password
