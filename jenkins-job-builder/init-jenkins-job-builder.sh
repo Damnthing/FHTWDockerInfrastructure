@@ -4,14 +4,14 @@
 sed -i 's|$FACH_FULL|'"$FACH_FULL"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
 # clone all jobs
-git clone "https://git-inf.technikum-wien.at/ueb-inf/$FACH_FULL"
+git clone "https://git-inf.technikum-wien.at/ueb-inf/$NGINX_PROXY_SUBDIRECTORY"
 
 # do nothing while jenkins-master is not availale
 cd "$FACH_FULL/jenkins-jobs"
 
 # non blocking background job
 (
-	while [ 200 != $(curl --write-out %{http_code} --silent --output /dev/null http://jenkins-master:8080/$FACH_FULL/) ]
+	while [ 200 != $(curl --write-out %{http_code} --silent --output /dev/null http://jenkins-master:8080/$NGINX_PROXY_SUBDIRECTORY/) ]
 	do
 		sleep 5
 	done

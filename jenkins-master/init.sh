@@ -33,5 +33,9 @@ do
 done
 echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
 
+# set ownership to jenkins
+chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
+
 sh `/sbin/tini -- /usr/local/bin/jenkins.sh`
 
