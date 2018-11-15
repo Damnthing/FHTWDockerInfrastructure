@@ -13,6 +13,10 @@ RUN apt-get update \
 		&& apt-get update \
 		&& apt-get install --no-install-recommends -y mono-runtime dotnet-sdk-2.1 \
 		&& rm -rf /var/lib/apt/lists/*
+		
+# copy reporting tool
+COPY ReportingTool.jar ${JENKINS_AGENT_HOME}/ReportingTool.jar
+COPY ReportingTool.properties ${JENKINS_AGENT_HOME}/ReportingTool.properties
 
 # copy git config
 COPY config /init/config
