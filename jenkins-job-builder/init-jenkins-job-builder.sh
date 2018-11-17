@@ -4,7 +4,7 @@
 sed -i 's|$FACH_FULL|'"$FACH_FULL"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
 # clone all jobs
-git clone "https://git-inf.technikum-wien.at/ueb-inf/$COURSE.git"
+git clone "ssh://jenkins-ueb-inf@git-inf.technikum-wien.at/ueb-inf/$COURSE.git"
 
 # do nothing while jenkins-master is not availale
 cd "$FACH_FULL/jenkins-jobs"

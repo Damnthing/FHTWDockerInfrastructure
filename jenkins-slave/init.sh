@@ -2,10 +2,12 @@
 
 # copy keys
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+mkdir -p "~/.ssh"
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
 cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"
+cp /run/secrets/git-external-private-key "~/.ssh/git-external-private-key"
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
@@ -25,6 +27,14 @@ do
         gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
 done
 echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
+
+# add external git server to known_hosts file
+gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
+while [ -z "$gitExternalSshKey" ]
+do
+        gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
+done
+echo $gitExternalSshKey >> "~/.ssh/known_hosts"
 
 # if this is a job-builder-slave, create its jobs
 [ -e /init/init-jenkins-job-builder.sh ] && /init/init-jenkins-job-builder.sh || :
