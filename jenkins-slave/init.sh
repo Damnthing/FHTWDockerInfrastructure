@@ -4,6 +4,7 @@
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 mkdir -p "~/.ssh"
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
+cp /init/config "~/.ssh/config"
 cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
 cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"

@@ -7,7 +7,7 @@ sed -i 's|$FACH_FULL|'"$FACH_FULL"'|g' /jenkins-job-builder/etc/jenkins-job-buil
 git clone "ssh://jenkins-ueb-inf@git-inf.technikum-wien.at/ueb-inf/$COURSE.git"
 
 # do nothing while jenkins-master is not availale
-cd "$FACH_FULL/jenkins-jobs"
+cd "./$COURSE.git"
 
 # non blocking background job
 (
