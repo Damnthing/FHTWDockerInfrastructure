@@ -27,13 +27,6 @@ do
         gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
 done
 echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
-
-# add external git server to known_hosts file
-gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
-while [ -z "$gitExternalSshKey" ]
-do
-        gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
-done
 echo $gitExternalSshKey >> "~/.ssh/known_hosts"
 
 # if this is a job-builder-slave, create its jobs
