@@ -9,6 +9,7 @@ cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys
 cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
 cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"
 cp /run/secrets/git-external-private-key "${HOME}/.ssh/git-external-private-key"
+chmod 400 "${HOME}/.ssh/git-external-private-key"
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
