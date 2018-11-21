@@ -22,7 +22,7 @@ services:
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
-      - COURSE=bif-ws18-gpr1
+      - COURSE=BIF-WS18-GPR1
     secrets:
       - git-external-private-key
       - ssh-slave-public-key
