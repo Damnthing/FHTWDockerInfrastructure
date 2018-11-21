@@ -5,4 +5,4 @@ export MONO_OPTIONS="--debug"
 export MONO_LOG_LEVEL=debug
 
 # start the mono-fastcgi-server4
-fastcgi-mono-server4 /applications=/$VIRTUAL_SUBDIRECTORY:/$VIRTUAL_SUBDIRECTORY /socket=tcp:$(ip -4 addr show eth2 | grep -Po 'inet \K[\d.]+'):9000 /verbose=True /printlog=True
+fastcgi-mono-server4 /applications=/$VIRTUAL_SUBDIRECTORY:/$VIRTUAL_SUBDIRECTORY /socket=tcp:$(cat /etc/hosts | grep $(cat /etc/hostname) | awk '{print $1;}'):9000 /verbose=True /printlog=True

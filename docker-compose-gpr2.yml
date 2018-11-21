@@ -15,7 +15,6 @@ services:
       - ssh-slave-private-key
     networks:
       - course-network
-      - nginx-proxy-network
     depends_on:
       - "gitblit"
 
@@ -59,7 +58,6 @@ services:
       - git-internal-password
     networks:
       - course-network
-      - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
 
@@ -90,7 +88,6 @@ services:
       - postgres-password
     networks:
       - course-network
-      - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/gitblit-repositories
     depends_on:
@@ -119,8 +116,6 @@ secrets:
 networks:
   course-network:
      driver: overlay
-  nginx-proxy-network:
-     external: true
 
 volumes:
   gitblit-repository-data:
