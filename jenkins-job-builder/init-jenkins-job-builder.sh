@@ -11,11 +11,12 @@ cd "./$COURSE"
 
 # non blocking background job
 (
-	while [ 200 != $(curl --write-out %{http_code} --silent --output /dev/null http://jenkins-master:8080/$NGINX_PROXY_SUBDIRECTORY/) ]
+	while [ 200 != $(curl --write-out %{http_code} --silent --output /dev/null http://jenkins-master:8080/$JENKINS_SUBDIRECTORY/) ]
 	do
 		sleep 5
 	done
 
 	# create jobs
 	jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update *
+	#jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update /jenkins-job-builder/tests/yamlparser/fixtures/templates002.yaml
 ) &
