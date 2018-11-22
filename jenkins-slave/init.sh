@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set environment variables in current shell
+export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
+
 # copy keys and config
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 mkdir -p "${HOME}/.ssh"
