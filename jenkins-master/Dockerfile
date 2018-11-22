@@ -12,6 +12,7 @@ COPY plugins.txt /tmp/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /tmp/plugins.txt
 
 # copy groovy scripts for setting up jenkins
+COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/authentication.groovy
 COPY authentication.groovy /usr/share/jenkins/ref/init.groovy.d/authentication.groovy
 COPY ldap.groovy /usr/share/jenkins/ref/init.groovy.d/ldap.groovy
 COPY credentials.groovy /usr/share/jenkins/ref/init.groovy.d/credentials.groovy

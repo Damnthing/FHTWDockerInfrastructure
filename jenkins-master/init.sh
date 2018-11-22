@@ -7,7 +7,11 @@ mkdir -p "${JENKINS_HOME}/.ssh"
 cp /tmp/config "${JENKINS_HOME}/.ssh/config"
 
 # copy key
-cp /run/secrets/git-internal-private-key "${JENKINS_HOME}/.ssh/git-internal-private-key"
+cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_HOME}/.ssh/internal-git-private-key"
+
+sed -i 's|$SSH_SLAVE_PRIVATE_KEY_FILE|'"$SSH_SLAVE_PRIVATE_KEY_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
+sed -i 's|$JENKINS_USER_FILE|'"$JENKINS_USER_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/security.groovy
+sed -i 's|$JENKINS_PASSWORD_FILE|'"$JENKINS_PASSWORD_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/security.groovy
 
 # add internal git server to known_hosts file
 gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`

@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# copy keys
+# copy keys and config
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 mkdir -p "${HOME}/.ssh"
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp /init/config "${HOME}/.ssh/config"
-cp /run/secrets/ssh-slave-public-key "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
-cp /run/secrets/git-internal-private-key "${JENKINS_AGENT_HOME}/.ssh/git-internal-private-key"
-cp /run/secrets/git-external-private-key "${JENKINS_AGENT_HOME}/.ssh/git-external-private-key"
-cp /run/secrets/git-external-private-key "${HOME}/.ssh/git-external-private-key"
-chmod 400 "${HOME}/.ssh/git-external-private-key"
+cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
+cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
+cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
+cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${HOME}/.ssh/external-git-private-key"
+chmod 400 "${HOME}/.ssh/external-git-private-key"
+
+# set internal git user to pull with
+sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
@@ -41,6 +44,7 @@ ssh-keygen -A
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 
+# create custom work directory and set ownership to user jenkins
 mkdir -p /workspace-custom
 chown -Rf jenkins:jenkins "/workspace-custom"
 
