@@ -41,5 +41,8 @@ ssh-keygen -A
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 
+mkdir -p /workspace-custom
+chown -Rf jenkins:jenkins "/workspace-custom"
+
 # run ssh slave
 exec /usr/sbin/sshd -D -e "${@}"

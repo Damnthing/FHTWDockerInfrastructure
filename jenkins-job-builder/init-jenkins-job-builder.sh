@@ -17,6 +17,6 @@ cd "./$COURSE"
 	done
 
 	# create jobs
-	jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update *
+	jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update .
 	#jenkins-jobs --conf /jenkins-job-builder/etc/jenkins-job-builder-conf.ini update /jenkins-job-builder/tests/yamlparser/fixtures/templates002.yaml
 ) &

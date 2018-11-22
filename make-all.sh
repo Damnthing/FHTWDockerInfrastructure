@@ -2,33 +2,33 @@
 
 (
 	cd nginx-proxy
-	docker image build -t nginx-proxy:dev .
+	docker image build --no-cache -t nginx-proxy:dev .
 )
 (
 	cd jenkins-master
-	docker image build -t jenkins-master:dev .
+	docker image build --no-cache -t jenkins-master:dev .
 )
 (
 	cd jenkins-slave
-	docker image build -t jenkins-slave:dev .
+	docker image build --no-cache -t jenkins-slave:dev .
 )
 (
 	cd jenkins-job-builder
-	docker image build -t jenkins-job-builder:dev .
+	docker image build --no-cache -t jenkins-job-builder:dev .
 )
 (
 	cd jenkins-slave-build-essential
-	docker image build -t jenkins-slave-build-essential:dev .
+	docker image build --no-cache -t jenkins-slave-build-essential:dev .
 )
 (
 	cd gitblit
-	docker image build -t gitblit:dev .
+	docker image build --no-cache -t gitblit:dev .
 )
 (
 	cd database
-	docker image build -t database:dev .
+	docker image build --no-cache -t database:dev .
 )
 (
 	cd application
-	docker image build -t application:dev .
+	docker image build --no-cache -t application:dev .
 )
