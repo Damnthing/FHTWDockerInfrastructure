@@ -28,6 +28,7 @@ services:
     image: jenkins-job-builder:dev
     environment:
       - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
+      - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/internal-git-private-key
       - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/ssh-slave-public-key
       - JENKINS_USER_FILE=/run/secrets/jenkins-user
