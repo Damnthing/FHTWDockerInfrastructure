@@ -37,6 +37,7 @@ services:
       - JENKINS_SUBDIRECTORY=gpr1/jenkins
     secrets:
       - internal-git-user
+      - internal-git-private-key
       - external-git-private-key
       - ssh-slave-public-key
       - jenkins-user
