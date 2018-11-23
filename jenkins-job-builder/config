@@ -1,0 +1,6 @@
+HOST gitblit
+User $INTERNAL_GIT_USER
+IdentityFile ~/.ssh/internal-git-private-key
+
+HOST git-inf.technikum-wien.at
+IdentityFile ~/.ssh/external-git-private-key
