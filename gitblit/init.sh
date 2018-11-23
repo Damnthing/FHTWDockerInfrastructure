@@ -15,6 +15,7 @@ sed -i 's|$NGINX_PROXY_SUBDIRECTORY|'"$NGINX_PROXY_SUBDIRECTORY"'|g' /opt/gitbli
 
 # remove admin / admin and create internal git user
 sed -i 's|$NGINX_PROXY_SUBDIRECTORY|'"$NGINX_PROXY_SUBDIRECTORY"'|g' /opt/gitblit-data-initial/gitblit.properties
+sed -i 's|$JENKINS_SUBDIRECTORY|'"$JENKINS_SUBDIRECTORY"'|g' /opt/gitblit-data-initial/gitblit.properties
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' /opt/gitblit-data-initial/users.conf
 sed -i 's|$INTERNAL_GIT_PASSWORD|'"$INTERNAL_GIT_PASSWORD"'|g' /opt/gitblit-data-initial/users.conf
 

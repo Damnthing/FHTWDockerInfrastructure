@@ -27,6 +27,7 @@ services:
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
+      - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
       - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/ssh-slave-public-key
       - JENKINS_USER_FILE=/run/secrets/jenkins-user
@@ -34,6 +35,7 @@ services:
       - COURSE=BIF-WS18-GPR1
       - JENKINS_SUBDIRECTORY=gpr1/jenkins
     secrets:
+      - internal-git-user
       - external-git-private-key
       - ssh-slave-public-key
       - jenkins-user
@@ -46,11 +48,13 @@ services:
   jenkins-slave:
     image: jenkins-slave:dev
     environment:
+      - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
       - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/internal-git-private-key
       - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/ssh-slave-public-key
       - JENKINS_SLAVE_SSH_PUBKEY=
     secrets:
+      - internal-git-user
       - internal-git-private-key
       - external-git-private-key
       - ssh-slave-public-key
@@ -69,6 +73,7 @@ services:
       - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
       - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/internal-git-password
       - INTERNAL_GIT_PUBLIC_KEY_FILE=/run/secrets/internal-git-public-key
+      - JENKINS_SUBDIRECTORY=gpr1/jenkins
     secrets:
       - internal-git-public-key
       - internal-git-user
