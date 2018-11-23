@@ -21,6 +21,7 @@ chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 mkdir -p "${HOME}/.ssh"
 cp /init/config "${HOME}/.ssh/config"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${HOME}/.ssh/external-git-private-key"
+sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${HOME}/.ssh/config"
 chmod 700 "${HOME}/.ssh/external-git-private-key"
 
 # ensure variables passed to docker container are also exposed to ssh sessions
@@ -50,8 +51,8 @@ sed -i 's|$JENKINS_USER|'"$JENKINS_USER"'|g' /jenkins-job-builder/etc/jenkins-jo
 sed -i 's|$JENKINS_PASSWORD|'"$JENKINS_PASSWORD"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
 # clone all jobs
-git clone "ssh://git@git-inf.technikum-wien.at/ueb-inf/$COURSE.git"
-cd "./$COURSE"
+git clone "ssh://git@git-inf.technikum-wien.at/ueb-inf/$COURSE-Jobs.git"
+cd "./$COURSE-Jobs"
 
 # non blocking background job
 (
