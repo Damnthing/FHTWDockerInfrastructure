@@ -51,12 +51,16 @@ services:
     image: jenkins-slave:dev
     environment:
       - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
+      - POSTGRES_USER_FILE=/run/secrets/postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
       - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/internal-git-private-key
       - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/ssh-slave-public-key
       - JENKINS_SLAVE_SSH_PUBKEY=
     secrets:
       - internal-git-user
+      - postgres-user
+      - postgres-password
       - internal-git-private-key
       - external-git-private-key
       - ssh-slave-public-key

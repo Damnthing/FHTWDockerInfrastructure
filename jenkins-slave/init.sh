@@ -2,6 +2,8 @@
 
 # set environment variables in current shell
 export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
+export POSTGRES_USER=$(cat $POSTGRES_USER_FILE)
+export POSTGRES_PASSWORD=$(cat $POSTGRES_PASSWORD_FILE)
 
 # copy keys and config for user jenkins
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
@@ -18,6 +20,10 @@ chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
 # create custom work directory and set ownership to user jenkins
 mkdir -p /workspace-custom
 chown -Rf jenkins:jenkins "/workspace-custom"
+
+# set reporting tool properties
+sed -i 's|$POSTGRES_USER|'"$POSTGRES_USER"'|g' /workspace-custom/Common/ReportingTool.properties
+sed -i 's|$POSTGRES_PASSWORD|'"$POSTGRES_PASSWORD"'|g' /workspace-custom/Common/ReportingTool.properties
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
