@@ -7,4 +7,4 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 # copy checkproject
-COPY checkproject.jar /workspace-custom/Common/checkproject.jar
+#COPY checkproject.jar /workspace-custom/Common/checkproject.jar

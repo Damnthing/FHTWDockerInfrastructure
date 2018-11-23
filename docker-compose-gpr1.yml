@@ -48,7 +48,7 @@ services:
       - "gitblit"
 
   jenkins-slave:
-    image: jenkins-slave:dev
+    image: jenkins-slave-build-essential:dev
     environment:
       - INTERNAL_GIT_USER_FILE=/run/secrets/internal-git-user
       - POSTGRES_USER_FILE=/run/secrets/postgres-user
