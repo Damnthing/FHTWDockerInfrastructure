@@ -1,5 +1,5 @@
 # use official jenkins-slave image
-FROM jenkins-slave:dev
+FROM jenkins/ssh-slave
 
 # install python and python-pip
 RUN apt-get update \
@@ -21,6 +21,12 @@ RUN pip install jenkins-job-builder
 # copy jenkins-job-builder-configuration
 COPY jenkins-job-builder-conf.ini /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
+# copy git config
+COPY config /init/config
+
 # copy init script
-COPY init-jenkins-job-builder.sh /init/init-jenkins-job-builder.sh
-RUN chmod +x /init/init-jenkins-job-builder.sh
+COPY init.sh /init/init.sh
+RUN chmod +x /init/init.sh
+
+# start image with init.sh script
+ENTRYPOINT ["/init/init.sh"]
