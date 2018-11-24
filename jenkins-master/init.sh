@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# create .ssh directory
+# create .ssh directory and set ownership and permissions
 mkdir -p "${JENKINS_HOME}/.ssh"
+chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
+chmod 0700 -R "${JENKINS_HOME}/.ssh"
 
 # copy git config
-cp /tmp/config "${JENKINS_HOME}/.ssh/config"
+cp /init/config "${JENKINS_HOME}/.ssh/config"
 
 # copy key
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_HOME}/.ssh/internal-git-private-key"
@@ -36,10 +38,6 @@ do
         jenkinsJobBuilderSshKey=`ssh-keyscan jenkins-job-builder`
 done
 echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
-
-# set ownership to jenkins
-chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
-chmod 0700 -R "${JENKINS_HOME}/.ssh"
 
 # start the jenkins server
 sh `/sbin/tini -- /usr/local/bin/jenkins.sh`

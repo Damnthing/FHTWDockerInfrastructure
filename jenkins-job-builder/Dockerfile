@@ -18,15 +18,17 @@ WORKDIR /jenkins-job-builder
 # install jenkins-job-builder
 RUN pip install jenkins-job-builder
 
-# copy jenkins-job-builder-configuration
+# copy jenkins-job-builder-configuration and set permissions
 COPY jenkins-job-builder-conf.ini /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
+RUN chmod 0755 /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
-# copy git config
+# copy git config and set permissions
 COPY config /init/config
+RUN chmod 0755 /init/config
 
-# copy init script
+# copy init script and set permissions
 COPY init.sh /init/init.sh
-RUN chmod +x /init/init.sh
+RUN chmod 0755 /init/init.sh
 
 # start image with init.sh script
 ENTRYPOINT ["/init/init.sh"]

@@ -19,13 +19,16 @@ COPY credentials.groovy /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
 COPY slave.groovy /usr/share/jenkins/ref/init.groovy.d/slave.groovy
 COPY views.groovy /usr/share/jenkins/ref/init.groovy.d/views.groovy
 
-# copy git config
-COPY config /tmp/config
-RUN chown jenkins:jenkins /tmp/config
+# set permissions
+RUN chmod -R 0755 /usr/share/jenkins/ref/init.groovy.d
 
-# copy init script
+# copy git config and set permissions
+COPY config /init/config
+RUN chmod 0755 /init/config
+
+# copy init script and set permissions
 COPY init.sh /init/init.sh
-RUN chmod +x /init/init.sh
+RUN chmod 0755 /init/init.sh
 
 # run image with user jenkins
 USER jenkins

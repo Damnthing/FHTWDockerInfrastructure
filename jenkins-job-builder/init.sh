@@ -5,24 +5,31 @@ export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
 export JENKINS_USER=$(cat $JENKINS_USER_FILE)
 export JENKINS_PASSWORD=$(cat $JENKINS_PASSWORD_FILE)
 
-# copy keys and config for user jenkins
+# create .ssh directory for user jenkins and set ownership and permissions
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
+
+# copy keys and config for user jenkins
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
 
-# set ownership of jenkins agent home to user jenkins
-chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
-chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
-
-# copy keys and config for user root
+# create .ssh directory for user root and set ownership and permissions
 mkdir -p "${HOME}/.ssh"
+chmod 0700 -R "${HOME}/.ssh"
+
+# copy keys and config for user root and set permissions
 cp /init/config "${HOME}/.ssh/config"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${HOME}/.ssh/config"
-chmod 700 "${HOME}/.ssh/external-git-private-key"
+
+# set jenkins-job-builder configuration values
+sed -i 's|$JENKINS_SUBDIRECTORY|'"$JENKINS_SUBDIRECTORY"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
+sed -i 's|$JENKINS_USER|'"$JENKINS_USER"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
+sed -i 's|$JENKINS_PASSWORD|'"$JENKINS_PASSWORD"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
@@ -44,11 +51,6 @@ do
 done
 echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
 echo $gitExternalSshKey >> "${HOME}/.ssh/known_hosts"
-
-# set jenkins-job-builder configuration values
-sed -i 's|$JENKINS_SUBDIRECTORY|'"$JENKINS_SUBDIRECTORY"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
-sed -i 's|$JENKINS_USER|'"$JENKINS_USER"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
-sed -i 's|$JENKINS_PASSWORD|'"$JENKINS_PASSWORD"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
 
 # clone all jobs
 git clone "ssh://git@git-inf.technikum-wien.at/ueb-inf/$COURSE-Jobs.git"

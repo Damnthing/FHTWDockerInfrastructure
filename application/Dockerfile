@@ -31,15 +31,20 @@ RUN cp -R ./Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
 RUN cp -R ./Assignment/bin/lib/linux/x86_64/*.so /lib/
 RUN cp -R ./Assignment/bin/lib/ /app/lib/
 
+# set permissions
+RUN chmod -R 0755 ./Assignment
+
 WORKDIR /
 
+# copy mono-fastcgi-server4 config and set permissions
 COPY mono-fastcgi /opt/mono-fastcgi
-RUN chmod +x /opt/mono-fastcgi
+RUN chmod 0755 /opt/mono-fastcgi
 
-# copy init script
+# copy init script and set permissions
 COPY init.sh /init/init.sh
-RUN chmod +x /init/init.sh
+RUN chmod 0755 /init/init.sh
 
+# expost port 9000
 EXPOSE 9000
 
 # start image with init.sh script

@@ -5,21 +5,22 @@ export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
 export POSTGRES_USER=$(cat $POSTGRES_USER_FILE)
 export POSTGRES_PASSWORD=$(cat $POSTGRES_PASSWORD_FILE)
 
-# copy keys and config for user jenkins
+# create .ssh directory and set ownership and permissions
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
+chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
+
+# copy keys and config for user jenkins
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
 
-# set ownership of jenkins agent home to user jenkins
-chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
-chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
-
-# create custom work directory and set ownership to user jenkins
+# create workspace-custom directory for user jenkins and set ownership and permissions
 mkdir -p /workspace-custom
-chown -Rf jenkins:jenkins "/workspace-custom"
+chown -Rf jenkins:jenkins /workspace-custom
+chmod 0755 -R /workspace-custom
 
 # set reporting tool properties
 sed -i 's|$POSTGRES_USER|'"$POSTGRES_USER"'|g' /workspace-custom/Common/ReportingTool.properties

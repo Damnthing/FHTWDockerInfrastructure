@@ -13,17 +13,18 @@ RUN apt-get update \
 		&& apt-get update \
 		&& apt-get install --no-install-recommends -y mono-runtime dotnet-sdk-2.1 \
 		&& rm -rf /var/lib/apt/lists/*
-		
+
 # copy reporting tool
 COPY ReportingTool.jar /workspace-custom/Common/ReportingTool.jar
 COPY ReportingTool.properties /workspace-custom/Common/ReportingTool.properties
 
-# copy git config
+# copy git config and set permissions
 COPY config /init/config
+RUN chmod 0755 /init/config
 
-# copy init script
+# copy init script and set permissions
 COPY init.sh /init/init.sh
-RUN chmod +x /init/init.sh
+RUN chmod 0755 /init/init.sh
 
 # start image with init.sh script
 ENTRYPOINT ["/init/init.sh"]
