@@ -8,7 +8,7 @@ chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
 cp /init/config "${JENKINS_HOME}/.ssh/config"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_HOME}/.ssh/internal-git-private-key"
 chmod 0755 "${JENKINS_HOME}/.ssh/config"
-chmod 0700 "${JENKINS_HOME}/.ssh/internal-git-private-key"
+chmod 0740 "${JENKINS_HOME}/.ssh/internal-git-private-key"
 
 # set variable values
 sed -i 's|$SSH_SLAVE_PRIVATE_KEY_FILE|'"$SSH_SLAVE_PRIVATE_KEY_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
