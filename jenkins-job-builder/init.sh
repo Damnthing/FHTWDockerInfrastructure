@@ -5,26 +5,26 @@ export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
 export JENKINS_USER=$(cat $JENKINS_USER_FILE)
 export JENKINS_PASSWORD=$(cat $JENKINS_PASSWORD_FILE)
 
-# create .ssh directory for user jenkins and set ownership and permissions
+# create .ssh directory for user jenkins and set ownership
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
-chmod 0740 -R "${JENKINS_AGENT_HOME}/.ssh"
 
-# copy keys and config for user jenkins
+# copy keys and config for user jenkins and permissions
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
+chmod 0740 -R "${JENKINS_AGENT_HOME}/.ssh"
 
-# create .ssh directory for user root and set ownership and permissions
+# create .ssh directory for user root
 mkdir -p "${HOME}/.ssh"
-chmod 0700 -R "${HOME}/.ssh"
 
-# copy keys and config for user root and set permissions
+# copy keys and config for user root and permissions
 cp /init/config "${HOME}/.ssh/config"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${HOME}/.ssh/config"
+chmod 0700 -R "${HOME}/.ssh"
 
 # set jenkins-job-builder configuration values
 sed -i 's|$JENKINS_SUBDIRECTORY|'"$JENKINS_SUBDIRECTORY"'|g' /jenkins-job-builder/etc/jenkins-job-builder-conf.ini
