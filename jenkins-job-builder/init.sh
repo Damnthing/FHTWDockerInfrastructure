@@ -15,7 +15,10 @@ cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
-chmod 0740 -R "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0750 "${JENKINS_AGENT_HOME}/.ssh/config"
+chmod 0750 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
+chmod 0700 "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
+chmod 0700 "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 
 # create .ssh directory for user root
 mkdir -p "${HOME}/.ssh"

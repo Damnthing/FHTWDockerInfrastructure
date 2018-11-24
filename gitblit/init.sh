@@ -9,7 +9,7 @@ mkdir -p /opt/gitblit-data-initial/ssh
 
 # copy key and set permissions
 cp "${INTERNAL_GIT_PUBLIC_KEY_FILE}" "/opt/gitblit-data-initial/ssh/${INTERNAL_GIT_USER}.keys"
-chmod 0740 -R /opt/gitblit-data-initial/ssh
+chmod 0700 -R /opt/gitblit-data-initial/ssh
 
 # run gitblit under the correct path
 sed -i 's|$NGINX_PROXY_SUBDIRECTORY|'"$NGINX_PROXY_SUBDIRECTORY"'|g' /opt/gitblit-data-initial/gitblit.properties
