@@ -7,7 +7,7 @@ chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
 # copy keys and config and set permissions
 cp /init/config "${JENKINS_HOME}/.ssh/config"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_HOME}/.ssh/internal-git-private-key"
-chmod 0750 "${JENKINS_HOME}/.ssh/config"
+chmod 0740 "${JENKINS_HOME}/.ssh/config"
 chmod 0700 "${JENKINS_HOME}/.ssh/internal-git-private-key"
 
 # set variable values
