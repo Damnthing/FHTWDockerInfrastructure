@@ -6,7 +6,7 @@ export INTERNAL_GIT_PASSWORD=$(cat $INTERNAL_GIT_PASSWORD_FILE)
 
 # create ssh directory and set permissions
 mkdir -p /opt/gitblit-data-initial/ssh
-chmod 0750 -R /opt/gitblit-data-initial/ssh
+chmod 0740 -R /opt/gitblit-data-initial/ssh
 
 # copy key
 cp "${INTERNAL_GIT_PUBLIC_KEY_FILE}" "/opt/gitblit-data-initial/ssh/${INTERNAL_GIT_USER}.keys"
