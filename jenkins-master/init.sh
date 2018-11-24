@@ -3,7 +3,7 @@
 # create .ssh directory and set ownership and permissions
 mkdir -p "${JENKINS_HOME}/.ssh"
 chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
-chmod 0700 -R "${JENKINS_HOME}/.ssh"
+chmod 0750 -R "${JENKINS_HOME}/.ssh"
 
 # copy git config
 cp /init/config "${JENKINS_HOME}/.ssh/config"

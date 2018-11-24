@@ -8,7 +8,7 @@ export POSTGRES_PASSWORD=$(cat $POSTGRES_PASSWORD_FILE)
 # create .ssh directory and set ownership and permissions
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
-chmod 0700 -R "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0750 -R "${JENKINS_AGENT_HOME}/.ssh"
 
 # copy keys and config for user jenkins
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
