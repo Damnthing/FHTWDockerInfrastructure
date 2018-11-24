@@ -7,7 +7,7 @@ chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
 # copy keys and config and set permissions
 cp /init/config "${JENKINS_HOME}/.ssh/config"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_HOME}/.ssh/internal-git-private-key"
-chmod 0740 "${JENKINS_HOME}/.ssh/config"
+chmod 0755 "${JENKINS_HOME}/.ssh/config"
 chmod 0700 "${JENKINS_HOME}/.ssh/internal-git-private-key"
 
 # set variable values
@@ -38,6 +38,9 @@ do
         jenkinsJobBuilderSshKey=`ssh-keyscan jenkins-job-builder`
 done
 echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
+
+# set permissions
+chmod 0755 "${JENKINS_HOME}/.ssh/known_hosts"
 
 # start the jenkins server
 sh `/sbin/tini -- /usr/local/bin/jenkins.sh`

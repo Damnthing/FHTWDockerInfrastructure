@@ -15,8 +15,8 @@ cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
-chmod 0740 "${JENKINS_AGENT_HOME}/.ssh/config"
-chmod 0744 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
+chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/config"
+chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 chmod 0700 "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 chmod 0700 "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 
@@ -49,6 +49,10 @@ do
 done
 echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
 echo $gitExternalSshKey >> "${HOME}/.ssh/known_hosts"
+
+# set permissions
+chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
+chmod 0700 "${HOME}/.ssh/known_hosts"
 
 # generate ssh keys for the server
 ssh-keygen -A
