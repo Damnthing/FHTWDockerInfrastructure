@@ -21,6 +21,8 @@ services:
       - jenkins-password
     networks:
       - course-network
+    volumes:
+      - jenkins-master-home-data:/var/jenkins_home
     depends_on:
       - "gitblit"
 
@@ -66,6 +68,9 @@ services:
       - ssh-slave-public-key
     networks:
       - course-network
+    volumes:
+      - jenkins-slave-home-data:/home/jenkins
+      - jenkins-slave-workspace-custom-data:/workspace-custom
     depends_on:
       - "gitblit"
   
@@ -100,6 +105,8 @@ services:
       - postgres-user
     networks:
       - course-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
 
   application:
     image: application:dev
@@ -150,6 +157,14 @@ networks:
      driver: overlay
 
 volumes:
+  jenkins-master-home-data:
+    driver: local
+  jenkins-slave-home-data:
+    driver: local
+  jenkins-slave-workspace-custom-data:
+    driver: local
   gitblit-repository-data:
-     driver: local
+    driver: local
+  database-data:
+    driver: local
 
