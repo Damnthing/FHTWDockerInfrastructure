@@ -5,20 +5,15 @@ export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
 export POSTGRES_USER=$(cat $POSTGRES_USER_FILE)
 export POSTGRES_PASSWORD=$(cat $POSTGRES_PASSWORD_FILE)
 
-# create .ssh directory and set ownership
+# create .ssh directory
 mkdir -p "${JENKINS_AGENT_HOME}/.ssh"
-chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 
-# copy keys and config for user jenkins and set permissions
+# copy keys and config for user jenkins
 cp /init/config "${JENKINS_AGENT_HOME}/.ssh/config"
 cp "${SSH_SLAVE_PUBLIC_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 cp "${INTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
 cp "${EXTERNAL_GIT_PRIVATE_KEY_FILE}" "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_AGENT_HOME}/.ssh/config"
-chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/config"
-chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
-chmod 0740 "${JENKINS_AGENT_HOME}/.ssh/internal-git-private-key"
-chmod 0740 "${JENKINS_AGENT_HOME}/.ssh/external-git-private-key"
 
 # create workspace-custom directory for user jenkins and set ownership and permissions
 mkdir -p /workspace-custom
@@ -39,7 +34,6 @@ do
         gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
 done
 echo $gitInternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
-echo $gitInternalSshKey >> "${HOME}/.ssh/known_hosts"
 
 # add external git server to known_hosts file
 gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
@@ -48,11 +42,10 @@ do
         gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
 done
 echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
-echo $gitExternalSshKey >> "${HOME}/.ssh/known_hosts"
 
-# set permissions
-chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
-chmod 0700 "${HOME}/.ssh/known_hosts"
+# set ownership and permissions
+chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
+chmod -R 0700 "${JENKINS_AGENT_HOME}/.ssh"
 
 # generate ssh keys for the server
 ssh-keygen -A
