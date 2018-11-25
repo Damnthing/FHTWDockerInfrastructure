@@ -53,6 +53,7 @@ echo $gitExternalSshKey >> "${HOME}/.ssh/known_hosts"
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 chmod -R 0700 "${JENKINS_AGENT_HOME}/.ssh"
 chmod 0700 -R "${HOME}/.ssh"
+chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 
 # clone all jobs
 git clone "ssh://git@git-inf.technikum-wien.at/ueb-inf/$COURSE-Jobs.git"

@@ -46,6 +46,7 @@ echo $gitExternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
 # set ownership and permissions
 chown -Rf jenkins:jenkins "${JENKINS_AGENT_HOME}/.ssh"
 chmod -R 0700 "${JENKINS_AGENT_HOME}/.ssh"
+chmod 0755 "${JENKINS_AGENT_HOME}/.ssh/authorized_keys"
 
 # generate ssh keys for the server
 ssh-keygen -A
