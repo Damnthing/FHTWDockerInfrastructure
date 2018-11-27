@@ -1,6 +1,8 @@
 FROM jenkins/jenkins:lts
 
-RUN adduser -G shadow jenkins
+USER root
+
+RUN adduser jenkins shadow
 
 COPY ldap.conf /etc/ldap.conf
 COPY nsswitch.conf /etc/nsswitch.conf
