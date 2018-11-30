@@ -8,13 +8,16 @@ USER root
 RUN adduser jenkins shadow
 
 # install packages for pam / ldap authentication
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -yq libnss-ldap libpam-ldaps
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -yq libnss-ldapd libpam-ldapd sudo
 
 # copy pam / ldap authentication config and set permissions
 COPY nslcd.conf /etc/nslcd.conf
 COPY nsswitch.conf /etc/nsswitch.conf
 RUN chmod 755 /etc/nslcd.conf
 RUN chmod 755 /etc/nsswitch.conf
+
+# enable user jenkins to run pam / ldap authentication
+RUN echo "jenkins ALL=NOPASSWD: /etc/init.d/nslcd" >> /etc/sudoers 
 
 # do not run setup wizard
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
