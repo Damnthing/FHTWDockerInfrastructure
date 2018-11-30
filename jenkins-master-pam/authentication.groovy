@@ -114,6 +114,7 @@ adminPermissions.add(Permission.fromId("hudson.model.Run.Update"));
 Role adminRole = new Role(globalRoleAdmin, adminPermissions);
 roleBasedAuthenticationStrategy.addRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole);
 roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole, "TW_LKT");
+roleBasedAuthenticationStrategy.assignRole(RoleBasedAuthorizationStrategy.GLOBAL, adminRole, "$JENKINS_USER");
 
 // create globalAnonymous set of permissions
 Set<Permission> globalAnonymousPermissions = new HashSet<Permission>();

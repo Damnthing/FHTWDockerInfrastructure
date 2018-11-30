@@ -20,6 +20,7 @@ chmod 0755 "${JENKINS_HOME}/.ssh/config"
 chmod 0740 "${JENKINS_HOME}/.ssh/internal-git-private-key"
 
 # set variable values
+sed -i 's|$JENKINS_USER|'"$JENKINS_USER"'|g' /usr/share/jenkins/ref/init.groovy.d/authentication.groovy
 sed -i 's|$SSH_SLAVE_PRIVATE_KEY_FILE|'"$SSH_SLAVE_PRIVATE_KEY_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
 sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_HOME}/.ssh/config"
 
