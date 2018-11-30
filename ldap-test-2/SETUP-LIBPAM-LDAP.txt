@@ -1,0 +1,3 @@
+1. Install libpam-ldapd and libnss-ldapd with apt
+2. Configure /etc/nslcd.conf and /etc/nsswitch.conf
+3. Check /etc/pam.d/common-auth for ldap(if installation was successful it should countain calls to the ldap module) 
