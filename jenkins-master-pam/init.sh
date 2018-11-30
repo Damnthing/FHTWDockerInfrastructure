@@ -43,8 +43,8 @@ echo $jenkinsJobBuilderSshKey >> "${JENKINS_HOME}/.ssh/known_hosts"
 chmod 0755 "${JENKINS_HOME}/.ssh/known_hosts"
 
 # start nslcd
-/etc/init.d/nslcd start
+sudo /etc/init.d/nslcd start
 
 # start the jenkins server
-sh `/sbin/tini -- /usr/local/bin/jenkins.sh`
+sh `/sbin/tini -s /usr/local/bin/jenkins.sh`
 
