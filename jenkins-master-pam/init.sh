@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# set environment variables in current shell
+export INTERNAL_GIT_USER=$(cat $INTERNAL_GIT_USER_FILE)
+export JENKINS_USER=$(cat $JENKINS_USER_FILE)
+export JENKINS_PASSWORD=$(cat $JENKINS_PASSWORD_FILE)
+
+# add user for jenkins job builder
+sudo useradd $JENKINS_USER
+echo "$JENKINS_USER:$JENKINS_PASSWORD" | sudo chpasswd &> /dev/null
+
 # create .ssh directory and set ownership
 mkdir -p "${JENKINS_HOME}/.ssh"
 chown -Rf jenkins:jenkins "${JENKINS_HOME}/.ssh"
@@ -12,8 +21,7 @@ chmod 0740 "${JENKINS_HOME}/.ssh/internal-git-private-key"
 
 # set variable values
 sed -i 's|$SSH_SLAVE_PRIVATE_KEY_FILE|'"$SSH_SLAVE_PRIVATE_KEY_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/credentials.groovy
-sed -i 's|$JENKINS_USER_FILE|'"$JENKINS_USER_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/security.groovy
-sed -i 's|$JENKINS_PASSWORD_FILE|'"$JENKINS_PASSWORD_FILE"'|g' /usr/share/jenkins/ref/init.groovy.d/security.groovy
+sed -i 's|$INTERNAL_GIT_USER|'"$INTERNAL_GIT_USER"'|g' "${JENKINS_HOME}/.ssh/config"
 
 # add internal git server to known_hosts file
 gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`

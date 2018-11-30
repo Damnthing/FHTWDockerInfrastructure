@@ -1,2 +1,3 @@
 HOST gitblit
+User $INTERNAL_GIT_USER
 IdentityFile ~/.ssh/git-internal-private-key

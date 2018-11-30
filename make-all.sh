@@ -5,7 +5,7 @@
 	docker image build --no-cache -t nginx-proxy:dev .
 )
 (
-	cd jenkins-master
+	cd jenkins-master-pam
 	docker image build --no-cache -t jenkins-master:dev .
 )
 (

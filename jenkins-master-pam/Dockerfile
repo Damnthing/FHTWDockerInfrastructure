@@ -19,6 +19,11 @@ RUN chmod 755 /etc/nsswitch.conf
 # enable user jenkins to run pam / ldap authentication
 RUN echo "jenkins ALL=NOPASSWD: /etc/init.d/nslcd" >> /etc/sudoers 
 
+# enable user jenkins to add users
+RUN echo "jenkins ALL=NOPASSWD: /usr/sbin/useradd" >> /etc/sudoers
+RUN echo "jenkins ALL=NOPASSWD: /usr/sbin/chpasswd" >> /etc/sudoers
+
+
 # do not run setup wizard
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
