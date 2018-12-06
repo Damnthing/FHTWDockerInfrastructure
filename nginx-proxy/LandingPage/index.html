@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to inf-swe</title>
+	<link rel="shortcut icon" href='favicon.png' />
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <!-- my custom stylesheet -->
+    <link rel="stylesheet" href="css/stylesheet.css">
+	
+	<script type="text/javascript">
+		function writeCookie(name, value, days) {
+			var expires;
+
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = "; expires=" + date.toGMTString();
+			} else {
+				expires = "";
+			}
+			document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+		}
+
+		function readCookie(name) {
+			var nameEQ = encodeURIComponent(name) + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+				if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+			}
+			return null;
+		}
+
+		function eraseCookie(name) {
+			writeCookie(name, "", -1);
+		}
+
+		$(function () {
+			var ctrlProgram = $("#program");
+			var ctrlSemester = $("#semester");
+			var ctrlCourse = $("#course");
+			var ctrlApplication = $("#application");
+
+			var year = new Date().getFullYear() % 100;
+			for (i = -1; i < 1; i++) {
+				ctrlSemester.append($("<option></option>")
+						.attr("value", "ss" + (year + i))
+						.text("SS" + (year + i)));
+				ctrlSemester.append($("<option></option>")
+						.attr("value", "ws" + (year + i))
+						.text("WS" + (year + i)));
+			}
+			ctrlProgram.val(readCookie("program"));
+			ctrlSemester.val(readCookie("semester"));
+			ctrlCourse.val(readCookie("course"));
+			ctrlApplication.val(readCookie("application"));
+
+			$("#goto-job").click(function () {
+				var program = ctrlProgram.val();
+				var semester = ctrlSemester.val();
+				var course = ctrlCourse.val();
+				var application = ctrlApplication.val();
+				var hasError = false;
+
+				if (!program) {
+					ctrlProgram.parent().addClass("has-error");
+					hasError = true;
+				}
+				if (!semester) {
+					ctrlSemester.parent().addClass("has-error");
+					hasError = true;
+				}
+				if (!course) {
+					ctrlCourse.parent().addClass("has-error");
+					hasError = true;
+				}
+				if (!application) {
+					ctrlApplication.parent().addClass("has-error");
+					hasError = true;
+				}
+
+				if (!hasError) {
+					ctrlProgram.parent().removeClass("has-error");
+					ctrlSemester.parent().removeClass("has-error");
+					ctrlCourse.parent().removeClass("has-error");
+					ctrlApplication.parent().removeClass("has-error");
+
+					writeCookie("program", program);
+					writeCookie("semester", semester);
+					writeCookie("course", course);
+					writeCookie("application", application);
+
+					var url = "https://ueb-inf.technikum-wien.at/" + semester + "-" + program + "-" + course + "/" + application + "/";
+					console.log("Going to: " + url);
+					window.open(url, "_blank");
+				}
+				return false;
+			});
+		});
+	</script>
+	
+	<style>
+		.jumbotron {
+			background-color:#dff0d8 !important;
+			color: black !important;
+			border: solid 1px #3c763d;
+		}
+		.navbar {
+			background-color:#4b4e51 !important;
+		}
+		.navbar a {
+			color: white !important;
+		}
+	</style
+</head>
+<body style="background-color:#eee">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">UEB-INF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to ueb-inf</h1>
+            <p>Your plattform for your submissions</p>
+        </div>
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">What is it?</h3>
+				</div>
+				<div class="panel-body">
+					<p>
+						inf-swe is a plattform where you can upload/push your submissions to various assignments.
+					</p>
+				</div>
+			</div>
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Services</h3>
+				</div>
+				<div class="panel-body">
+					<form class="form-inline">
+						<div class="form-group">
+							<select class="form-control" id="semester">
+								<option></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="program">
+								<option></option>
+								<option value="bid">BID</option>
+								<option value="bif">BIF</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="course">
+								<option></option>
+								<option value="gpr1">GPR1</option>
+								<option value="gpr2">GPR2</option>
+								</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="application">
+								<option></option>
+								<option value="assignment">ASSIGNMENT</option>
+								<option value="gitblit">GITBLIT</option>
+								<option value="jenkins">JENKINS</option>
+							</select>
+						</div>
+						<button id="goto-job" class="btn btn-primary">Go</button>
+					</form>
+					<br>
+					<h4>Gitblit</h4>
+					A git-repository server where you can push your submissions. See instructions in each assignment for details.
+					<h4> Assignments</h4>
+					A plattform where you can manager group works and upload your submissions. See instructions in each assignment for details.
+					<h4>Jenkins</h4>
+					A jenkins server where you get feedback for your submissions. See instructions in each assignment for details.
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Background</h3>
+				</div>
+				<div class="panel-body">
+					<p>
+						Some background information to <a href="http://gitblit.com/">Gitblit</a>, <a href="http://jenkins-ci.org/" target="_blank">Jenkins</a> and the <a href="http://ci.openstack.org/jenkins-job-builder/" target="_blank">Job Builder</a>
+					</p>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Download Tools</h3>
+				</div>
+				<div class="panel-body">
+					<p>
+						<ul>
+							<li><a href="tools/checkproject.exe">checkproject.exe</a>
+							<li><a href="https://github.com/DynamoRIO/drmemory/wiki/Downloads">DrMemory</a>
+							<li><a href="http://www.codeblocks.org/downloads">CodeBlocks</a>
+						</ul>
+					</p>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+</html>
