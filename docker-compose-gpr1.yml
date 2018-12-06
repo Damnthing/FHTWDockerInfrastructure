@@ -16,11 +16,11 @@ services:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/jenkins
       - VIRTUAL_PORT=8080
     secrets:
-      - internal-git-private-key
-      - ssh-slave-private-key
-      - internal-git-user
-      - jenkins-user
-      - jenkins-password
+      - gpr1-internal-git-private-key
+      - gpr1-ssh-slave-private-key
+      - gpr1-internal-git-user
+      - gpr1-jenkins-user
+      - gpr1-jenkins-password
     networks:
       - course-network
     volumes:
@@ -31,7 +31,7 @@ services:
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
-      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr1-external-git-private-key
+      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr1-internal-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/gpr1-ssh-slave-public-key
       - INTERNAL_GIT_USER_FILE=/run/secrets/gpr1-internal-git-user
@@ -41,11 +41,11 @@ services:
       - JENKINS_SUBDIRECTORY=gpr1/jenkins
     secrets:
       - external-git-private-key
-      - internal-git-private-key
-      - ssh-slave-public-key
-      - internal-git-user
-      - jenkins-user
-      - jenkins-password
+      - gpr1-internal-git-private-key
+      - gpr1-ssh-slave-public-key
+      - gpr1-internal-git-user
+      - gpr1-jenkins-user
+      - gpr1-jenkins-password
     networks:
       - course-network
     depends_on:
@@ -54,7 +54,7 @@ services:
   jenkins-slave:
     image: jenkins-slave-build-essential:dev
     environment:
-      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr1-external-git-private-key
+      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
       - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr1-internal-git-private-key
       - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/gpr1-ssh-slave-public-key
       - INTERNAL_GIT_USER_FILE=/run/secrets/gpr1-internal-git-user
@@ -62,11 +62,11 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/gpr1-postgres-password
     secrets:
       - external-git-private-key
-      - internal-git-private-key
-      - ssh-slave-public-key
-      - internal-git-user
-      - postgres-user
-      - postgres-password
+      - gpr1-internal-git-private-key
+      - gpr1-ssh-slave-public-key
+      - gpr1-internal-git-user
+      - gpr1-postgres-user
+      - gpr1-postgres-password
     networks:
       - course-network
     volumes:
@@ -87,9 +87,9 @@ services:
       - NGINX_PROXY_SUBDIRECTORY=gpr1/gitblit
       - VIRTUAL_PORT=8080
     secrets:
-      - internal-git-public-key
-      - internal-git-user
-      - internal-git-password
+      - gpr1-internal-git-public-key
+      - gpr1-internal-git-user
+      - gpr1-internal-git-password
     networks:
       - course-network
     volumes:
@@ -102,8 +102,8 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/gpr1-postgres-password
       - POSTGRES_DB=Abgabe
     secrets:
-      - postgres-password
-      - postgres-user
+      - gpr1-postgres-password
+      - gpr1-postgres-user
     networks:
       - course-network
     volumes:
@@ -120,8 +120,8 @@ services:
 #    ports:
 #      - 9000
     secrets:
-      - postgres-user
-      - postgres-password
+      - gpr1-postgres-user
+      - gpr1-postgres-password
     networks:
       - course-network
     volumes:
@@ -130,7 +130,7 @@ services:
       - "database"
  
 secrets:
-  gpr1-external-git-private-key:
+  external-git-private-key:
     external: true
   gpr1-internal-git-private-key:
     external: true
