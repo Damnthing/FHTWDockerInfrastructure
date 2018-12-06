@@ -38,6 +38,7 @@
 			
 			{{ if eq $proto "fastcgi" }}
 				{{ template "fastcgi_headers" $ }}
+				rewrite ^/{{ $subdir }}$ /{{ $subdir }}/ redirect;
 				rewrite ^/{{ $subdir }}/(.*)$ /{{ $upstreamString }}/$1 break;
 				fastcgi_pass {{ trim $upstreamString }};
 			{{ else }}
