@@ -5,57 +5,91 @@ services:
   jenkins-master:
     image: jenkins-master:dev
 #    ports:
-#      - 8080:8080
+#      - 8080
     environment:
+      - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr2-internal-git-private-key
+      - SSH_SLAVE_PRIVATE_KEY_FILE=/run/secrets/gpr2-ssh-slave-private-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/gpr2-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/gpr2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/gpr2-jenkins-password
       - JENKINS_OPTS=--prefix=/gpr2/jenkins
       - NGINX_PROXY_SUBDIRECTORY=gpr2/jenkins
       - VIRTUAL_PORT=8080
     secrets:
-      - git-internal-private-key
-      - ssh-slave-private-key
+      - gpr2-internal-git-private-key
+      - gpr2-ssh-slave-private-key
+      - gpr2-internal-git-user
+      - gpr2-jenkins-user
+      - gpr2-jenkins-password
     networks:
       - course-network
+    volumes:
+      - jenkins-master-home-data:/var/jenkins_home
     depends_on:
       - "gitblit"
 
   jenkins-job-builder:
     image: jenkins-job-builder:dev
     environment:
-      - COURSE=bif-ws18-gpr1
+      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
+      - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr2-internal-git-private-key
+      - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/gpr2-ssh-slave-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/gpr2-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/gpr2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/gpr2-jenkins-password
+      - COURSE=BIF-WS18-GPR2
+      - JENKINS_SUBDIRECTORY=gpr2/jenkins
     secrets:
-      - git-external-private-key
-      - ssh-slave-public-key
+      - external-git-private-key
+      - gpr2-internal-git-private-key
+      - gpr2-ssh-slave-public-key
+      - gpr2-internal-git-user
+      - gpr2-jenkins-user
+      - gpr2-jenkins-password
     networks:
       - course-network
     depends_on:
       - "gitblit"
 
   jenkins-slave:
-    image: jenkins-slave:dev
+    image: jenkins-slave-build-essential:dev
     environment:
-      - JENKINS_SLAVE_SSH_PUBKEY=
+      - EXTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/external-git-private-key
+      - INTERNAL_GIT_PRIVATE_KEY_FILE=/run/secrets/gpr2-internal-git-private-key
+      - SSH_SLAVE_PUBLIC_KEY_FILE=/run/secrets/gpr2-ssh-slave-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/gpr2-internal-git-user
+      - POSTGRES_USER_FILE=/run/secrets/gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/gpr2-postgres-password
     secrets:
-      - git-internal-private-key
-      - git-external-private-key
-      - ssh-slave-public-key
+      - external-git-private-key
+      - gpr2-internal-git-private-key
+      - gpr2-ssh-slave-public-key
+      - gpr2-internal-git-user
+      - gpr2-postgres-user
+      - gpr2-postgres-password
     networks:
       - course-network
+    volumes:
+      - jenkins-slave-home-data:/home/jenkins
+      - jenkins-slave-workspace-custom-data:/workspace-custom
     depends_on:
       - "gitblit"
   
   gitblit:
     image: gitblit:dev
 #    ports:
-#      - 8181:8080
+#      - 8080
     environment:
+      - INTERNAL_GIT_PUBLIC_KEY_FILE=/run/secrets/gpr2-internal-git-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/gpr2-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/gpr2-internal-git-password
+      - JENKINS_SUBDIRECTORY=gpr2/jenkins
       - NGINX_PROXY_SUBDIRECTORY=gpr2/gitblit
       - VIRTUAL_PORT=8080
-      - GITBLIT_INTERNAL_USER_FILE=/run/secrets/git-internal-user
-      - GITBLIT_INTERNAL_PASSWORD_FILE=/run/secrets/git-internal-password
     secrets:
-      - git-internal-public-key
-      - git-internal-user
-      - git-internal-password
+      - gpr2-internal-git-public-key
+      - gpr2-internal-git-user
+      - gpr2-internal-git-password
     networks:
       - course-network
     volumes:
@@ -64,28 +98,30 @@ services:
   database:
     image: database:dev
     environment: 
+      - POSTGRES_USER_FILE=/run/secrets/gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/gpr2-postgres-password
       - POSTGRES_DB=Abgabe
-      - POSTGRES_USER_FILE=/run/secrets/postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
     secrets:
-      - postgres-password
-      - postgres-user
+      - gpr2-postgres-password
+      - gpr2-postgres-user
     networks:
       - course-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
 
   application:
     image: application:dev
     environment:
+      - POSTGRES_USER_FILE=/run/secrets/gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/gpr2-postgres-password
       - NGINX_PROXY_SUBDIRECTORY=gpr2/assignment
-      - VIRTUAL_SUBDIRECTORY=gpr2-assignment
       - VIRTUAL_PROTO=fastcgi
-      - POSTGRES_USER_FILE=/run/secrets/postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-user
+      - VIRTUAL_SUBDIRECTORY=gpr2-assignment
 #    ports:
-#      - 9000:9000
+#      - 9000
     secrets:
-      - postgres-user
-      - postgres-password
+      - gpr2-postgres-user
+      - gpr2-postgres-password
     networks:
       - course-network
     volumes:
@@ -94,23 +130,27 @@ services:
       - "database"
  
 secrets:
-  git-internal-private-key:
+  external-git-private-key:
     external: true
-  git-internal-public-key:
+  gpr2-internal-git-private-key:
     external: true
-  git-external-private-key:
+  gpr2-internal-git-public-key:
     external: true
-  ssh-slave-private-key:
+  gpr2-ssh-slave-private-key:
     external: true
-  ssh-slave-public-key:
+  gpr2-ssh-slave-public-key:
     external: true
-  git-internal-user:
+  gpr2-internal-git-user:
     external: true
-  git-internal-password:
+  gpr2-internal-git-password:
     external: true
-  postgres-user:
+  gpr2-postgres-user:
     external: true
-  postgres-password:
+  gpr2-postgres-password:
+    external: true
+  gpr2-jenkins-user:
+    external: true
+  gpr2-jenkins-password:
     external: true
 
 networks:
@@ -118,6 +158,14 @@ networks:
      driver: overlay
 
 volumes:
+  jenkins-master-home-data:
+    driver: local
+  jenkins-slave-home-data:
+    driver: local
+  jenkins-slave-workspace-custom-data:
+    driver: local
   gitblit-repository-data:
-     driver: local
+    driver: local
+  database-data:
+    driver: local
 
