@@ -222,8 +222,8 @@ access_log off;
 
 		add_header Strict-Transport-Security "max-age=31536000";
 
-		location / {
-                        /usr/share/nginx/html/index.html
+		location = / {
+                        index index.html
                 }
 
 		{{ template "locations" $ }}
@@ -234,8 +234,8 @@ access_log off;
 		listen 80;
 		access_log /var/log/nginx/access.log vhost;
 
-		location / {
-			/usr/share/nginx/html/index.html
+		location = / {
+			index index.html;
 		}
 		
 		{{ template "locations" $ }}

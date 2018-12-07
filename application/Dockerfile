@@ -25,22 +25,22 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/*
 
 # copy application
 RUN mkdir -p /app/App_Data
-COPY --from=builder /build/Assignment/bin /app/bin
-COPY --from=builder /build/Assignment/Content /app/Content
-COPY --from=builder /build/Assignment/fonts /app/fonts
-COPY --from=builder /build/Assignment/Scripts /app/Scripts
-COPY --from=builder /build/Assignment/Views /app/Views
-COPY --from=builder /build/Assignment/favicon.png /app/favicon.png
-COPY --from=builder /build/Assignment/Global.asax /app/Global.asax
-COPY --from=builder /build/Assignment/Docker.Web.config /app/Web.config
-COPY --from=builder /build/Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
+COPY --from=builder /build/Assignment/Assignment/bin /app/bin
+COPY --from=builder /build/Assignment/Assignment/Content /app/Content
+COPY --from=builder /build/Assignment/Assignment/fonts /app/fonts
+COPY --from=builder /build/Assignment/Assignment/Scripts /app/Scripts
+COPY --from=builder /build/Assignment/Assignment/Views /app/Views
+COPY --from=builder /build/Assignment/Assignment/favicon.png /app/favicon.png
+COPY --from=builder /build/Assignment/Assignment/Global.asax /app/Global.asax
+COPY --from=builder /build/Assignment/Assignment/Docker.Web.config /app/Web.config
+COPY --from=builder /build/Assignment/Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
 
 # copy git libs (putting right a bug)
-COPY --from=builder /build/Assignment/bin/lib/linux/x86_64/*.so /lib/
-COPY --from=builder /build/Assignment/bin/lib/ /app/lib/
+COPY --from=builder /build/Assignment/Assignment/bin/lib/linux/x86_64/*.so /lib/
+COPY --from=builder /build/Assignment/Assignment/bin/lib/ /app/lib/
 
 # set permissions
-RUN chmod -R 0755 ./Assignment
+RUN chmod -R 0755 /app
 
 WORKDIR /
 

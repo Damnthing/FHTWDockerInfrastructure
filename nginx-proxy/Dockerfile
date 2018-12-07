@@ -6,4 +6,4 @@ COPY nginx.tmpl /app/nginx.tmpl
 RUN chmod 0755 /app/nginx.tmpl
 
 # copy static page to serve links and set permissions
-COPY index.html /usr/share/nginx/html/index.html
+COPY ./LandingPage/ /etc/nginx/html/
