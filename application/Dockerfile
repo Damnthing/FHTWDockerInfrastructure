@@ -1,12 +1,12 @@
 # use official mono image
-FROM mono:5.16
+FROM mono:5.16 as builder
 
 # set working directory
 WORKDIR /build
 
-# install mono-fastcgi-server4 and git
+# install git
 RUN apt-get update
-RUN apt-get install -y mono-fastcgi-server4 git
+RUN apt-get install -y git
 RUN rm -rf /var/lib/apt/lists/* /tmp/*
 
 # build the application
@@ -15,21 +15,29 @@ WORKDIR /build/Assignment
 RUN nuget restore Assignment.sln
 RUN msbuild Assignment.sln
 
+# use official mono image
+FROM mono:5.16
+
+# install mono-fastcgi-server4 and git
+RUN apt-get update
+RUN apt-get install -y mono-fastcgi-server4 git
+RUN rm -rf /var/lib/apt/lists/* /tmp/*
+
 # copy application
 RUN mkdir -p /app/App_Data
-RUN cp -R ./Assignment/bin /app/bin
-RUN cp -R ./Assignment/Content /app/Content
-RUN cp -R ./Assignment/fonts /app/fonts
-RUN cp -R ./Assignment/Scripts /app/Scripts
-RUN cp -R ./Assignment/Views /app/Views
-RUN cp -R ./Assignment/favicon.png /app/favicon.png
-RUN cp -R ./Assignment/Global.asax /app/Global.asax
-RUN cp -R ./Assignment/Docker.Web.config /app/Web.config
-RUN cp -R ./Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
+COPY --from=builder /build/Assignment/bin /app/bin
+COPY --from=builder /build/Assignment/Content /app/Content
+COPY --from=builder /build/Assignment/fonts /app/fonts
+COPY --from=builder /build/Assignment/Scripts /app/Scripts
+COPY --from=builder /build/Assignment/Views /app/Views
+COPY --from=builder /build/Assignment/favicon.png /app/favicon.png
+COPY --from=builder /build/Assignment/Global.asax /app/Global.asax
+COPY --from=builder /build/Assignment/Docker.Web.config /app/Web.config
+COPY --from=builder /build/Assignment/Views/_ViewStart.cshtml /app/ViewStart.cshtml
 
 # copy git libs (putting right a bug)
-RUN cp -R ./Assignment/bin/lib/linux/x86_64/*.so /lib/
-RUN cp -R ./Assignment/bin/lib/ /app/lib/
+COPY --from=builder /build/Assignment/bin/lib/linux/x86_64/*.so /lib/
+COPY --from=builder /build/Assignment/bin/lib/ /app/lib/
 
 # set permissions
 RUN chmod -R 0755 ./Assignment
