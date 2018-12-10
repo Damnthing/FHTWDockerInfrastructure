@@ -1,8 +1,0 @@
-FROM jenkins/jenkins:lts
-
-USER root
-RUN apt-get update && apt-get install -y libltdl7 && rm -rf /var/lib/apt/lists/*
-
-# Use the root user a we will build docker container. This will need root rights to connect to the outer jenkins container
-# TODO: Can we improve this?
-# USER jenkins

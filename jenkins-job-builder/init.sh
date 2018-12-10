@@ -37,8 +37,8 @@ while [ -z "$gitInternalSshKey" ]
 do
         gitInternalSshKey=`ssh-keyscan -p 29418 gitblit`
 done
-echo $gitInternalSshKey >> "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
-echo $gitInternalSshKey >> "${HOME}/.ssh/known_hosts"
+echo $gitInternalSshKey > "${JENKINS_AGENT_HOME}/.ssh/known_hosts"
+echo $gitInternalSshKey > "${HOME}/.ssh/known_hosts"
 
 # add external git server to known_hosts file
 gitExternalSshKey=`ssh-keyscan git-inf.technikum-wien.at`
